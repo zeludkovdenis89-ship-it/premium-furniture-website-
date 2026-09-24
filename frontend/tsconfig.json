@@ -12,18 +12,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "outDir": "./",
-    "rootDir": "./"
+    "outDir": "./src",
+    "rootDir": "./src",
+    "sourceMap": true
   },
-  "include": [
-    "*.ts",
-    "auth/*.ts",
-    "services/*.ts",
-    "cabinet/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "*.js"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

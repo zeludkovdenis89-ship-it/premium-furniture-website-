@@ -3,44 +3,38 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Каталог — Manomaestro</title>
-    <meta name="description" content="Каталог премиальной мебели ручной работы Manomaestro. Эксклюзивные модели для вашего интерьера." />
+    <title>Проекты — Manomaestro</title>
+    <meta name="description" content="Реализованные проекты Manomaestro. Интерьеры с нашей мебелью — от классики до современного дизайна." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="cataloge.css" />
-    <link rel="stylesheet" href="auth/authh.css" />
+
+    <!-- СТИЛИ -->
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <link rel="stylesheet" href="./src/styles/projects.css" />
+    <link rel="stylesheet" href="./src/auth/authh.css" />
 </head>
 <body>
 
-    <!-- ==========================================================
-         ПРЕЛОАДЕР ПРИ ПЕРЕХОДЕ В КАТАЛОГ
-    ========================================================== -->
-    <div class="catalog-preloader" id="catalogPreloader">
-        <div class="catalog-preloader__content">
-            <span class="catalog-preloader__text">Manomaestro</span>
-            <span class="catalog-preloader__subtext">Каталог</span>
-            <span class="catalog-preloader__line"></span>
+    <!-- ПРЕЛОАДЕР -->
+    <div class="projects-preloader" id="projectsPreloader">
+        <div class="projects-preloader__content">
+            <span class="projects-preloader__text">Manomaestro</span>
+            <span class="projects-preloader__subtext">Проекты</span>
+            <span class="projects-preloader__line"></span>
         </div>
     </div>
 
-    <!-- ==========================================================
-         ОСНОВНАЯ ОБЁРТКА
-    ========================================================== -->
     <div class="site-wrapper" id="siteWrapper">
 
-        <!-- ==========================================================
-             ШАПКА
-        ========================================================== -->
+        <!-- ШАПКА -->
         <header class="header" id="header">
             <div class="container header__container">
                 <a href="index.html" class="logo">
-                    <img src="logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
                 </a>
-                
+
                 <nav class="header__nav" aria-label="Главное меню">
                     <ul class="nav__list">
                         <li class="nav__item nav__item--dropdown">
@@ -50,7 +44,7 @@
                                     <span class="dropdown__subtitle">✦ Философия Manomaestro</span>
                                     <h4 class="dropdown__title">Мы не просто делаем мебель.<br />Мы создаем наследие.</h4>
                                     <p class="dropdown__text">
-                                        Каждое изделие — это диалог между мастером и материалом. 
+                                        Каждое изделие — это диалог между мастером и материалом.
                                         Мебель, которая становится частью вашей истории на десятилетия.
                                     </p>
                                     <a href="index.html#about" class="dropdown__link">Узнать больше →</a>
@@ -65,7 +59,7 @@
                             <div class="dropdown dropdown--services" id="servicesDropdown">
                                 <div class="dropdown__content dropdown__content--services">
                                     <span class="dropdown__subtitle">✦ Наши услуги</span>
-                                    
+
                                     <div class="dropdown__services">
                                         <a href="index.html#service-design" class="dropdown__service">
                                             <span class="dropdown__service-icon">📐</span>
@@ -86,18 +80,17 @@
                             </div>
                         </li>
 
-                        <li><a href="catalog.html" class="nav__link nav__link--active">Каталог</a></li>
-                        <li><a href="project.html" class="nav__link">Проекты</a></li>
+                        <li><a href="catalog.html" class="nav__link">Каталог</a></li>
+                        <li><a href="projects.html" class="nav__link nav__link--active">Проекты</a></li>
                         <li><a href="index.html#blog" class="nav__link">Блог</a></li>
                         <li><a href="index.html#reviews" class="nav__link">Отзывы</a></li>
                         <li><a href="index.html#contacts" class="nav__link">Контакты</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="header__actions">
                     <a href="tel:+74952780285" class="header__phone">+7 (495) 278-02-85</a>
-                    
-                    <!-- КНОПКА АВТОРИЗАЦИИ -->
+
                     <button class="auth-btn" id="authBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -105,7 +98,7 @@
                         </svg>
                         <span>Войти</span>
                     </button>
-                    
+
                     <button class="burger" id="burger" aria-label="Открыть меню">
                         <span class="burger__line"></span>
                         <span class="burger__line"></span>
@@ -115,7 +108,7 @@
             </div>
         </header>
 
-        <!-- ======== МОБИЛЬНАЯ ШТОРКА ======== -->
+        <!-- МОБИЛЬНАЯ ШТОРКА -->
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu__inner">
                 <button class="mobile-menu__close" id="mobileMenuClose" aria-label="Закрыть меню">
@@ -124,21 +117,21 @@
                 </button>
                 <nav class="mobile-menu__nav">
                     <ul class="mobile-menu__list">
-                        <li><a href="index.html#about" class="mobile-menu__link">О бренде</a></li>
+                        <li><a href="index.html" class="mobile-menu__link">О бренде</a></li>
                         <li>
                             <button class="mobile-menu__link mobile-menu__link--dropdown" id="mobileServicesToggle">
                                 Услуги <span class="mobile-menu__arrow">▸</span>
                             </button>
                         </li>
-                        <li><a href="catalog.html" class="mobile-menu__link mobile-menu__link--active">Каталог</a></li>
-                        <li><a href="projects.html" class="mobile-menu__link">Проекты</a></li>
+                        <li><a href="catalog.html" class="mobile-menu__link">Каталог</a></li>
+                        <li><a href="projects.html" class="mobile-menu__link mobile-menu__link--active">Проекты</a></li>
                         <li><a href="index.html#blog" class="mobile-menu__link">Блог</a></li>
                         <li><a href="index.html#reviews" class="mobile-menu__link">Отзывы</a></li>
                         <li><a href="index.html#contacts" class="mobile-menu__link">Контакты</a></li>
                     </ul>
                 </nav>
                 <div class="mobile-menu__footer">
-                    <img src="logo.png" alt="Manomaestro" class="mobile-menu__logo" />
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="mobile-menu__logo" />
                     <p class="mobile-menu__address">г. Москва, Ленинградский пр-кт. д.80 корп.21</p>
                     <p class="mobile-menu__metro">🚇 Сокол — 550 м / Аэропорт — 1,7 км</p>
                     <a href="tel:+74952780285" class="mobile-menu__phone">+7 (495) 278-02-85</a>
@@ -146,7 +139,7 @@
             </div>
         </div>
 
-        <!-- ======== МОДАЛКА УСЛУГ ======== -->
+        <!-- МОДАЛКА УСЛУГ -->
         <div class="modal-overlay" id="servicesModal">
             <div class="modal">
                 <button class="modal__close" id="modalClose" aria-label="Закрыть">
@@ -173,81 +166,126 @@
             </div>
         </div>
 
-        <!-- ==========================================================
-             ОСНОВНОЙ КОНТЕНТ — КАТАЛОГ
-        ========================================================== -->
-        <main class="catalog-page">
+        <!-- ОСНОВНОЙ КОНТЕНТ — ПРОЕКТЫ -->
+        <main class="projects-page">
 
-            <!-- ====== ГЕРОЙ КАТАЛОГА С ВИДЕО СПРАВА ====== -->
-            <section class="catalog-hero">
-                <div class="container catalog-hero__container">
-                    <div class="catalog-hero__grid">
-                        
-                        <!-- ЛЕВАЯ КОЛОНКА — ТЕКСТ -->
-                        <div class="catalog-hero__content">
-                            <span class="catalog-hero__subtitle">✦ Коллекция</span>
-                            <h1 class="catalog-hero__title">
-                                Каждая модель —<br />
-                                <span class="catalog-hero__accent">это характер</span>
+            <!-- ГЕРОЙ ПРОЕКТОВ -->
+            <section class="projects-hero">
+                <div class="container projects-hero__container">
+                    <div class="projects-hero__grid">
+                        <div class="projects-hero__content">
+                            <span class="projects-hero__subtitle">✦ Портфолио</span>
+                            <h1 class="projects-hero__title">
+                                Наши проекты —<br />
+                                <span class="projects-hero__accent">истории в интерьере</span>
                             </h1>
-                            <p class="catalog-hero__text">
-                                Мы не создаём серийную мебель. Каждая модель в нашем каталоге — 
-                                это отражение эстетики, мастерства и внимания к деталям.
+                            <p class="projects-hero__text">
+                                Каждый проект — это уникальная история, где наша мебель становится
+                                главным героем. От классических особняков до современных апартаментов.
                             </p>
-                            <blockquote class="catalog-hero__quote">
-                                «Мебель должна говорить языком своего владельца.»
+                            <blockquote class="projects-hero__quote">
+                                «Интерьер — это не просто пространство. Это отражение личности.»
                             </blockquote>
                         </div>
 
-                        <!-- ПРАВАЯ КОЛОНКА — ВИДЕО -->
-                        <div class="catalog-hero__video-wrapper">
-                            <div class="catalog-hero__video-container">
-                                <!-- ВИДЕО С АВТОВОСПРОИЗВЕДЕНИЕМ И ПЕТЛЁЙ -->
-                                <video class="catalog-hero__video" autoplay muted loop playsinline>
-                                    <source src="4935202_House_Furniture_1280x720.mp4" type="video/mp4" />
-                                    <!-- Запасной вариант: если видео не загрузится -->
-                                    <div class="catalog-hero__video-fallback">
-                                        <span class="catalog-hero__video-icon">🎬</span>
-                                        <p>Видео интерьера</p>
-                                    </div>
-                                </video>
-                                
-                                <!-- ЗОЛОТОЕ СВЕЧЕНИЕ ВОКРУГ ВИДЕО -->
-                                <div class="catalog-hero__video-glow"></div>
-                                
-                                <!-- ЗОЛОТЫЕ УГОЛКИ НА ВИДЕО -->
-                                <div class="catalog-hero__video-corner catalog-hero__video-corner--tl"></div>
-                                <div class="catalog-hero__video-corner catalog-hero__video-corner--tr"></div>
-                                <div class="catalog-hero__video-corner catalog-hero__video-corner--bl"></div>
-                                <div class="catalog-hero__video-corner catalog-hero__video-corner--br"></div>
-                                
-                                <!-- ДЕКОРАТИВНЫЙ ЭЛЕМЕНТ — ЗОЛОТАЯ ЛИНИЯ -->
-                                <div class="catalog-hero__video-line"></div>
+                        <div class="projects-hero__media">
+                            <div class="projects-hero__media-container">
+                                <img src="./public/images/projects-hero.jpg" alt="Интерьер с мебелью Manomaestro" class="projects-hero__image" />
+                                <div class="projects-hero__media-glow"></div>
+                                <div class="projects-hero__media-corner projects-hero__media-corner--tl"></div>
+                                <div class="projects-hero__media-corner projects-hero__media-corner--tr"></div>
+                                <div class="projects-hero__media-corner projects-hero__media-corner--bl"></div>
+                                <div class="projects-hero__media-corner projects-hero__media-corner--br"></div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </section>
 
-            <!-- ====== СЕТКА КАТАЛОГА ====== -->
-            <section class="catalog-grid">
+            <!-- СТАТИСТИКА -->
+            <section class="projects-stats">
                 <div class="container">
-                    <div class="catalog-grid__items" id="catalogGrid">
-                        <!-- Карточки будут вставлены через JS -->
+                    <div class="projects-stats__grid">
+                        <div class="projects-stats__item">
+                            <span class="projects-stats__number" data-target="120">0</span>
+                            <span class="projects-stats__label">Реализованных проектов</span>
+                        </div>
+                        <div class="projects-stats__item">
+                            <span class="projects-stats__number" data-target="85">0</span>
+                            <span class="projects-stats__label">Уникальных интерьеров</span>
+                        </div>
+                        <div class="projects-stats__item">
+                            <span class="projects-stats__number" data-target="15">0</span>
+                            <span class="projects-stats__label">Лет в дизайне</span>
+                        </div>
+                        <div class="projects-stats__item">
+                            <span class="projects-stats__number" data-target="98">0</span>
+                            <span class="projects-stats__label">% Довольных клиентов</span>
+                        </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- КАРУСЕЛЬ ПРОЕКТОВ -->
+            <section class="projects-grid">
+                <div class="container">
+
+                    <div class="projects-grid__header">
+                        <h2 class="projects-grid__title">Избранные проекты</h2>
+                        <p class="projects-grid__subtitle">Каждый проект — это диалог между нами, клиентом и пространством.</p>
+                    </div>
+
+                    <div class="carousel-controls-wrapper">
+                        <div class="carousel-controls">
+                            <button class="carousel-controls__btn" id="carouselPrevTop" aria-label="Предыдущий">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="carousel-progress">
+                                <div class="carousel-progress__bar" id="carouselProgressTop"></div>
+                            </div>
+                            <button class="carousel-controls__btn" id="carouselNextTop" aria-label="Следующий">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="carousel-controls__hint">✦ Тяните или нажимайте стрелки</span>
+                    </div>
+
+                    <div class="projects-grid__items" id="projectsGrid">
+                        <!-- Проекты будут вставлены через JS -->
+                    </div>
+
+                    <div class="carousel-controls-bottom">
+                        <button class="carousel-controls-bottom__btn" id="carouselPrevBottom" aria-label="Предыдущий">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="carousel-progress-bottom">
+                            <div class="carousel-progress-bottom__bar" id="carouselProgressBottom"></div>
+                        </div>
+                        <button class="carousel-controls-bottom__btn" id="carouselNextBottom" aria-label="Следующий">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
                 </div>
             </section>
 
         </main>
 
-        <!-- ======== ПОДВАЛ ======== -->
+        <!-- ПОДВАЛ -->
         <footer class="footer" id="contacts">
             <div class="container footer__container">
                 <div class="footer__top">
                     <div class="footer__brand">
                         <a href="index.html" class="logo logo--footer">
-                            <img src="logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
+                            <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
                         </a>
                         <p class="footer__desc">Премиальная мебель ручной работы для избранных.</p>
                     </div>
@@ -264,10 +302,10 @@
             </div>
         </footer>
 
-    </div> <!-- /site-wrapper -->
+    </div>
 
-    <!-- Подключаем скрипты -->
-    <script type="module" src="catalog.js"></script>
-    <script type="module" src="main.js"></script>
+    <!-- СКРИПТЫ -->
+    <script type="module" src="./src/projects.js"></script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>

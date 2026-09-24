@@ -8,16 +8,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="cabinet.css" />
-    <link rel="stylesheet" href="auth/authh.css" />
+
+    <!-- СТИЛИ -->
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <link rel="stylesheet" href="./src/styles/cabinet.css" />
+    <link rel="stylesheet" href="./src/auth/authh.css" />
 </head>
 <body>
 
-    <!-- ==========================================================
-         ПРЕЛОАДЕР
-    ========================================================== -->
+    <!-- ПРЕЛОАДЕР -->
     <div class="cabinet-preloader" id="cabinetPreloader">
         <div class="cabinet-preloader__content">
             <span class="cabinet-preloader__text">Manomaestro</span>
@@ -26,20 +25,15 @@
         </div>
     </div>
 
-    <!-- ==========================================================
-         ОСНОВНАЯ ОБЁРТКА
-    ========================================================== -->
     <div class="site-wrapper" id="siteWrapper">
 
-        <!-- ==========================================================
-             ШАПКА
-        ========================================================== -->
+        <!-- ШАПКА -->
         <header class="header" id="header">
             <div class="container header__container">
                 <a href="index.html" class="logo">
-                    <img src="logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
                 </a>
-                
+
                 <nav class="header__nav" aria-label="Главное меню">
                     <ul class="nav__list">
                         <li class="nav__item nav__item--dropdown">
@@ -49,7 +43,7 @@
                                     <span class="dropdown__subtitle">✦ Философия Manomaestro</span>
                                     <h4 class="dropdown__title">Мы не просто делаем мебель.<br />Мы создаем наследие.</h4>
                                     <p class="dropdown__text">
-                                        Каждое изделие — это диалог между мастером и материалом. 
+                                        Каждое изделие — это диалог между мастером и материалом.
                                         Мебель, которая становится частью вашей истории на десятилетия.
                                     </p>
                                     <a href="index.html#about" class="dropdown__link">Узнать больше →</a>
@@ -64,7 +58,7 @@
                             <div class="dropdown dropdown--services" id="servicesDropdown">
                                 <div class="dropdown__content dropdown__content--services">
                                     <span class="dropdown__subtitle">✦ Наши услуги</span>
-                                    
+
                                     <div class="dropdown__services">
                                         <a href="index.html#service-design" class="dropdown__service">
                                             <span class="dropdown__service-icon">📐</span>
@@ -92,11 +86,10 @@
                         <li><a href="index.html#contacts" class="nav__link">Контакты</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="header__actions">
                     <a href="tel:+74952780285" class="header__phone">+7 (495) 278-02-85</a>
-                    
-                    <!-- КНОПКА АВТОРИЗАЦИИ -->
+
                     <button class="auth-btn" id="authBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -104,8 +97,7 @@
                         </svg>
                         <span>Войти</span>
                     </button>
-                    
-                    <!-- БУРГЕР -->
+
                     <button class="burger" id="burger" aria-label="Открыть меню">
                         <span class="burger__line"></span>
                         <span class="burger__line"></span>
@@ -115,7 +107,7 @@
             </div>
         </header>
 
-        <!-- ======== МОБИЛЬНАЯ ШТОРКА ======== -->
+        <!-- МОБИЛЬНАЯ ШТОРКА -->
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu__inner">
                 <button class="mobile-menu__close" id="mobileMenuClose" aria-label="Закрыть меню">
@@ -124,7 +116,7 @@
                 </button>
                 <nav class="mobile-menu__nav">
                     <ul class="mobile-menu__list">
-                        <li><a href="main.html" class="mobile-menu__link">О бренде</a></li>
+                        <li><a href="index.html" class="mobile-menu__link">О бренде</a></li>
                         <li>
                             <button class="mobile-menu__link mobile-menu__link--dropdown" id="mobileServicesToggle">
                                 Услуги <span class="mobile-menu__arrow">▸</span>
@@ -138,7 +130,7 @@
                     </ul>
                 </nav>
                 <div class="mobile-menu__footer">
-                    <img src="logo.png" alt="Manomaestro" class="mobile-menu__logo" />
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="mobile-menu__logo" />
                     <p class="mobile-menu__address">г. Москва, Ленинградский пр-кт. д.80 корп.21</p>
                     <p class="mobile-menu__metro">🚇 Сокол — 550 м / Аэропорт — 1,7 км</p>
                     <a href="tel:+74952780285" class="mobile-menu__phone">+7 (495) 278-02-85</a>
@@ -146,7 +138,7 @@
             </div>
         </div>
 
-        <!-- ======== МОДАЛКА УСЛУГ ======== -->
+        <!-- МОДАЛКА УСЛУГ -->
         <div class="modal-overlay" id="servicesModal">
             <div class="modal">
                 <button class="modal__close" id="modalClose" aria-label="Закрыть">
@@ -173,12 +165,9 @@
             </div>
         </div>
 
-        <!-- ==========================================================
-             ОСНОВНОЙ КОНТЕНТ — ЛИЧНЫЙ КАБИНЕТ
-        ========================================================== -->
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
         <main class="cabinet-page">
 
-            <!-- ====== ЗАГОЛОВОК ====== -->
             <section class="cabinet-header">
                 <div class="container cabinet-header__container">
                     <h1 class="cabinet-header__title">Личный кабинет</h1>
@@ -186,7 +175,6 @@
                 </div>
             </section>
 
-            <!-- ====== ТАБЫ ====== -->
             <section class="cabinet-tabs">
                 <div class="container">
                     <div class="cabinet-tabs__list">
@@ -222,18 +210,17 @@
                 </div>
             </section>
 
-            <!-- ====== СОДЕРЖИМОЕ ТАБОВ ====== -->
             <section class="cabinet-content">
                 <div class="container">
 
-                    <!-- ===== ПРОФИЛЬ ===== -->
+                    <!-- ПРОФИЛЬ -->
                     <div class="cabinet-tab cabinet-tab--active" id="tab-profile">
                         <div class="cabinet-profile">
                             <div class="cabinet-profile__avatar-wrapper">
-                                <img 
-                                    src="" 
-                                    alt="Аватар" 
-                                    class="cabinet-profile__avatar" 
+                                <img
+                                    src="./public/images/logo.png"
+                                    alt="Аватар"
+                                    class="cabinet-profile__avatar"
                                     id="avatarPreview"
                                 />
                                 <button class="cabinet-profile__avatar-btn" id="changeAvatarBtn">
@@ -241,26 +228,22 @@
                                 </button>
                                 <input type="file" id="avatarInput" accept="image/*" style="display: none;" />
                             </div>
-                            
+
                             <div class="cabinet-profile__info">
                                 <h2 class="cabinet-profile__name" id="profileName">Александр</h2>
-                                <!-- 🔥 ТЕЛЕФОН СВЕРХУ -->
                                 <p class="cabinet-profile__phone" id="profilePhone">+7 (495) 278-02-85</p>
-                                <!-- 🔥 EMAIL СНИЗУ -->
                                 <p class="cabinet-profile__email" id="profileEmail">test@test.com</p>
                             </div>
-                            
+
                             <div class="cabinet-profile__form">
                                 <div class="cabinet-profile__field">
                                     <label for="editName">Имя</label>
                                     <input type="text" id="editName" placeholder="Ваше имя" />
                                 </div>
-                                <!-- 🔥 ТЕЛЕФОН СВЕРХУ (в редактировании) -->
                                 <div class="cabinet-profile__field">
                                     <label for="editPhone">Телефон</label>
                                     <input type="tel" id="editPhone" placeholder="+7 (___)-___-__-__" />
                                 </div>
-                                <!-- 🔥 EMAIL СНИЗУ (в редактировании) -->
                                 <div class="cabinet-profile__field">
                                     <label for="editEmail">Email</label>
                                     <input type="email" id="editEmail" placeholder="mail@example.com" />
@@ -270,7 +253,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== ЗАКАЗЫ ===== -->
+                    <!-- ЗАКАЗЫ -->
                     <div class="cabinet-tab" id="tab-orders">
                         <div class="cabinet-orders">
                             <div class="cabinet-orders__filters">
@@ -281,22 +264,18 @@
                                 <button class="cabinet-orders__filter" data-status="delivered">Доставлен</button>
                                 <button class="cabinet-orders__filter" data-status="cancelled">Отменён</button>
                             </div>
-                            <div class="cabinet-orders__list" id="ordersList">
-                                <!-- Заказы будут вставлены через JS -->
-                            </div>
+                            <div class="cabinet-orders__list" id="ordersList"></div>
                         </div>
                     </div>
 
-                    <!-- ===== ИЗБРАННОЕ ===== -->
+                    <!-- ИЗБРАННОЕ -->
                     <div class="cabinet-tab" id="tab-favorites">
                         <div class="cabinet-favorites">
-                            <div class="cabinet-favorites__grid" id="favoritesGrid">
-                                <!-- Избранное будет вставлено через JS -->
-                            </div>
+                            <div class="cabinet-favorites__grid" id="favoritesGrid"></div>
                         </div>
                     </div>
 
-                    <!-- ===== НАСТРОЙКИ ===== -->
+                    <!-- НАСТРОЙКИ -->
                     <div class="cabinet-tab" id="tab-settings">
                         <div class="cabinet-settings">
                             <div class="cabinet-settings__section">
@@ -315,7 +294,7 @@
                                 </div>
                                 <button class="cabinet-settings__save-btn" id="changePasswordBtn">🔑 Сменить пароль</button>
                             </div>
-                            
+
                             <div class="cabinet-settings__section">
                                 <h3 class="cabinet-settings__title">Уведомления</h3>
                                 <div class="cabinet-settings__checkbox">
@@ -335,13 +314,13 @@
 
         </main>
 
-        <!-- ======== ПОДВАЛ ======== -->
+        <!-- ПОДВАЛ -->
         <footer class="footer" id="contacts">
             <div class="container footer__container">
                 <div class="footer__top">
                     <div class="footer__brand">
                         <a href="index.html" class="logo logo--footer">
-                            <img src="logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
+                            <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
                         </a>
                         <p class="footer__desc">Премиальная мебель ручной работы для избранных.</p>
                     </div>
@@ -358,11 +337,11 @@
             </div>
         </footer>
 
-    </div> <!-- /site-wrapper -->
+    </div>
 
-    <!-- Подключаем скрипты -->
-    <script type="module" src="main.js"></script>
-    <script type="module" src="cabinet.js"></script>
-    
+    <!-- СКРИПТЫ -->
+    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="./src/cabinet.js"></script>
+
 </body>
 </html>

@@ -168,7 +168,7 @@ class AuthModal {
                     
                     <div class="auth-modal__body">
                         <div class="auth-modal__logo">
-                            <img src="logo.png" alt="Manomaestro" height="40" />
+                          <img src="./public/images/logo.png" alt="Manomaestro" height="40" />
                         </div>
                         
                         <h2 class="auth-modal__title" id="authModalTitle">Вход в кабинет</h2>

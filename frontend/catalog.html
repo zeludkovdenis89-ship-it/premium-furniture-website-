@@ -3,58 +3,51 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manomaestro — Премиальная мебель ручной работы под заказ</title>
-    <meta name="description" content="Эксклюзивное производство мебели по индивидуальным проектам. 15 лет опыта, ручная работа, премиальные материалы." />
+    <title>Каталог — Manomaestro</title>
+    <meta name="description" content="Каталог премиальной мебели ручной работы Manomaestro. Эксклюзивные модели для вашего интерьера." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="auth/authh.css" />
+
+    <!-- СТИЛИ -->
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <link rel="stylesheet" href="./src/styles/cataloge.css" />
+    <link rel="stylesheet" href="./src/auth/authh.css" />
 </head>
 <body>
 
-    <!-- ==========================================================
-         БЕЛАЯ ВСПЫШКА С ЛОГОТИПОМ (PRELOADER)
-    ========================================================== -->
-    <div class="preloader" id="preloader">
-        <div class="preloader__content">
-            <img 
-                src="logo.png" 
-                alt="Manomaestro" 
-                class="preloader__logo" 
-                id="preloaderLogo"
-            />
-            <span class="preloader__line"></span>
+    <!-- ПРЕЛОАДЕР -->
+    <div class="catalog-preloader" id="catalogPreloader">
+        <div class="catalog-preloader__content">
+            <span class="catalog-preloader__text">Manomaestro</span>
+            <span class="catalog-preloader__subtext">Каталог</span>
+            <span class="catalog-preloader__line"></span>
         </div>
     </div>
 
-    <!-- ==========================================================
-         ОБЁРТКА САЙТА (ВСЕ ЭЛЕМЕНТЫ ВНУТРИ)
-    ========================================================== -->
     <div class="site-wrapper" id="siteWrapper">
 
-        <!-- ======== ШАПКА ======== -->
+        <!-- ШАПКА -->
         <header class="header" id="header">
             <div class="container header__container">
-                <a href="/" class="logo">
-                    <img src="logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
+                <a href="index.html" class="logo">
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
                 </a>
-                
+
                 <nav class="header__nav" aria-label="Главное меню">
                     <ul class="nav__list">
                         <li class="nav__item nav__item--dropdown">
-                            <a href="#about" class="nav__link">О бренде</a>
+                            <a href="index.html" class="nav__link">О бренде</a>
                             <div class="dropdown dropdown--about">
                                 <div class="dropdown__content">
                                     <span class="dropdown__subtitle">✦ Философия Manomaestro</span>
                                     <h4 class="dropdown__title">Мы не просто делаем мебель.<br />Мы создаем наследие.</h4>
                                     <p class="dropdown__text">
-                                        Каждое изделие — это диалог между мастером и материалом. 
+                                        Каждое изделие — это диалог между мастером и материалом.
                                         Мебель, которая становится частью вашей истории на десятилетия.
                                     </p>
-                                    <a href="#about" class="dropdown__link">Узнать больше →</a>
+                                    <a href="index.html#about" class="dropdown__link">Узнать больше →</a>
                                 </div>
                             </div>
                         </li>
@@ -66,16 +59,16 @@
                             <div class="dropdown dropdown--services" id="servicesDropdown">
                                 <div class="dropdown__content dropdown__content--services">
                                     <span class="dropdown__subtitle">✦ Наши услуги</span>
-                                    
+
                                     <div class="dropdown__services">
-                                        <a href="#service-design" class="dropdown__service">
+                                        <a href="index.html#service-design" class="dropdown__service">
                                             <span class="dropdown__service-icon">📐</span>
                                             <div>
                                                 <span class="dropdown__service-title">Дизайн мебели под ваш интерьер</span>
                                                 <span class="dropdown__service-desc">Создаём уникальные предметы, которые идеально впишутся в ваше пространство</span>
                                             </div>
                                         </a>
-                                        <a href="#service-manufacture" class="dropdown__service">
+                                        <a href="index.html#service-manufacture" class="dropdown__service">
                                             <span class="dropdown__service-icon">🔨</span>
                                             <div>
                                                 <span class="dropdown__service-title">Изготовление по утверждённому дизайн-проекту</span>
@@ -87,18 +80,17 @@
                             </div>
                         </li>
 
-                        <li><a href="catalog.html" class="nav__link">Каталог</a></li>
-                        <li><a href="project.html" class="nav__link">Проекты</a></li>
-                        <li><a href="#blog" class="nav__link">Блог</a></li>
-                        <li><a href="#reviews" class="nav__link">Отзывы</a></li>
-                        <li><a href="#contacts" class="nav__link">Контакты</a></li>
+                        <li><a href="catalog.html" class="nav__link nav__link--active">Каталог</a></li>
+                        <li><a href="projects.html" class="nav__link">Проекты</a></li>
+                        <li><a href="index.html#blog" class="nav__link">Блог</a></li>
+                        <li><a href="index.html#reviews" class="nav__link">Отзывы</a></li>
+                        <li><a href="index.html#contacts" class="nav__link">Контакты</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="header__actions">
                     <a href="tel:+74952780285" class="header__phone">+7 (495) 278-02-85</a>
-                    
-                    <!-- КНОПКА АВТОРИЗАЦИИ -->
+
                     <button class="auth-btn" id="authBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -106,7 +98,7 @@
                         </svg>
                         <span>Войти</span>
                     </button>
-                    
+
                     <button class="burger" id="burger" aria-label="Открыть меню">
                         <span class="burger__line"></span>
                         <span class="burger__line"></span>
@@ -116,35 +108,30 @@
             </div>
         </header>
 
-        <!-- ======== МОБИЛЬНАЯ ШТОРКА (ПОЯВЛЯЕТСЯ СВЕРХУ ВНИЗ) ======== -->
+        <!-- МОБИЛЬНАЯ ШТОРКА -->
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu__inner">
-                <!-- Крестик для закрытия -->
                 <button class="mobile-menu__close" id="mobileMenuClose" aria-label="Закрыть меню">
                     <span></span>
                     <span></span>
                 </button>
-
-                <!-- Ссылки меню -->
                 <nav class="mobile-menu__nav">
                     <ul class="mobile-menu__list">
-                        <li><a href="#about" class="mobile-menu__link">О бренде</a></li>
+                        <li><a href="index.html" class="mobile-menu__link">О бренде</a></li>
                         <li>
                             <button class="mobile-menu__link mobile-menu__link--dropdown" id="mobileServicesToggle">
                                 Услуги <span class="mobile-menu__arrow">▸</span>
                             </button>
                         </li>
-                        <li><a href="catalog.html" class="mobile-menu__link">Каталог</a></li>
-                        <li><a href="project.html" class="mobile-menu__link">Проекты</a></li>
-                        <li><a href="#blog" class="mobile-menu__link">Блог</a></li>
-                        <li><a href="#reviews" class="mobile-menu__link">Отзывы</a></li>
-                        <li><a href="#contacts" class="mobile-menu__link">Контакты</a></li>
+                        <li><a href="catalog.html" class="mobile-menu__link mobile-menu__link--active">Каталог</a></li>
+                        <li><a href="projects.html" class="mobile-menu__link">Проекты</a></li>
+                        <li><a href="index.html#blog" class="mobile-menu__link">Блог</a></li>
+                        <li><a href="index.html#reviews" class="mobile-menu__link">Отзывы</a></li>
+                        <li><a href="index.html#contacts" class="mobile-menu__link">Контакты</a></li>
                     </ul>
                 </nav>
-
-                <!-- Футер шторки (логотип + адрес + телефон) -->
                 <div class="mobile-menu__footer">
-                    <img src="logo.png" alt="Manomaestro" class="mobile-menu__logo" />
+                    <img src="./public/images/logo.png" alt="Manomaestro" class="mobile-menu__logo" />
                     <p class="mobile-menu__address">г. Москва, Ленинградский пр-кт. д.80 корп.21</p>
                     <p class="mobile-menu__metro">🚇 Сокол — 550 м / Аэропорт — 1,7 км</p>
                     <a href="tel:+74952780285" class="mobile-menu__phone">+7 (495) 278-02-85</a>
@@ -152,7 +139,7 @@
             </div>
         </div>
 
-        <!-- ======== МОДАЛЬНОЕ ОКНО ДЛЯ УСЛУГ ======== -->
+        <!-- МОДАЛКА УСЛУГ -->
         <div class="modal-overlay" id="servicesModal">
             <div class="modal">
                 <button class="modal__close" id="modalClose" aria-label="Закрыть">
@@ -161,14 +148,14 @@
                 </button>
                 <h3 class="modal__title">✦ Наши услуги</h3>
                 <div class="modal__options">
-                    <a href="#service-design" class="modal__option">
+                    <a href="index.html#service-design" class="modal__option">
                         <span class="modal__option-icon">📐</span>
                         <div>
                             <span class="modal__option-title">Дизайн мебели под ваш интерьер</span>
                             <span class="modal__option-desc">Создаём уникальные предметы, которые идеально впишутся в ваше пространство</span>
                         </div>
                     </a>
-                    <a href="#service-manufacture" class="modal__option">
+                    <a href="index.html#service-manufacture" class="modal__option">
                         <span class="modal__option-icon">🔨</span>
                         <div>
                             <span class="modal__option-title">Изготовление по утверждённому дизайн-проекту</span>
@@ -179,85 +166,74 @@
             </div>
         </div>
 
-        <!-- ======== ОСНОВНОЙ КОНТЕНТ ======== -->
-        <main>
+        <!-- ОСНОВНОЙ КОНТЕНТ — КАТАЛОГ -->
+        <main class="catalog-page">
 
-            <!-- ====== ГЕРОЙ ====== -->
-            <section class="hero">
-                <img src="hero-bg.jpg" alt="Интерьер с мебелью Manomaestro" class="hero__image" fetchpriority="high" />
-                <div class="hero__overlay"></div>
-                
-                <div class="container hero__container">
-                    <div class="hero__content">
-                        <h1 class="hero__title">
-                            Настоящее искусство<br />
-                            <span class="hero__title-accent">создавать мебель</span>
-                        </h1>
-                        
-                        <div class="hero__philosophy">
-                            <p class="hero__subtitle">
-                                Эксклюзивные решения ручной работы для апартаментов<br />
-                                и загородных резиденций.
+            <!-- ГЕРОЙ КАТАЛОГА С ВИДЕО СПРАВА -->
+            <section class="catalog-hero">
+                <div class="container catalog-hero__container">
+                    <div class="catalog-hero__grid">
+
+                        <!-- ЛЕВАЯ КОЛОНКА — ТЕКСТ -->
+                        <div class="catalog-hero__content">
+                            <span class="catalog-hero__subtitle">✦ Коллекция</span>
+                            <h1 class="catalog-hero__title">
+                                Каждая модель —<br />
+                                <span class="catalog-hero__accent">это характер</span>
+                            </h1>
+                            <p class="catalog-hero__text">
+                                Мы не создаём серийную мебель. Каждая модель в нашем каталоге —
+                                это отражение эстетики, мастерства и внимания к деталям.
                             </p>
-                            <blockquote class="hero__quote">
-                                «Мы не просто делаем мебель. Мы создаем наследие,<br />
-                                которое будет жить веками.»
+                            <blockquote class="catalog-hero__quote">
+                                «Мебель должна говорить языком своего владельца.»
                             </blockquote>
                         </div>
-                        
-                        <div class="hero__buttons">
-                            <a href="#portfolio" class="btn btn--primary">Смотреть проекты</a>
-                            <a href="#consultation" class="btn btn--secondary">Записаться на консультацию</a>
+
+                        <!-- ПРАВАЯ КОЛОНКА — ВИДЕО -->
+                        <div class="catalog-hero__video-wrapper">
+                            <div class="catalog-hero__video-container">
+                                <video class="catalog-hero__video" autoplay muted loop playsinline>
+                                    <source src="./public/videos/4935202_House_Furniture_1280x720.mp4" type="video/mp4" />
+                                    <div class="catalog-hero__video-fallback">
+                                        <span class="catalog-hero__video-icon">🎬</span>
+                                        <p>Видео интерьера</p>
+                                    </div>
+                                </video>
+
+                                <div class="catalog-hero__video-glow"></div>
+
+                                <div class="catalog-hero__video-corner catalog-hero__video-corner--tl"></div>
+                                <div class="catalog-hero__video-corner catalog-hero__video-corner--tr"></div>
+                                <div class="catalog-hero__video-corner catalog-hero__video-corner--bl"></div>
+                                <div class="catalog-hero__video-corner catalog-hero__video-corner--br"></div>
+
+                                <div class="catalog-hero__video-line"></div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </section>
 
-            <!-- ====== О БРЕНДЕ ====== -->
-            <section class="about" id="about">
-                <div class="container about__container">
-                    <div class="about__grid">
-                        <div class="about__content">
-                            <span class="about__subtitle">Философия бренда</span>
-                            <h2 class="about__title">15 лет безупречных традиций в каждом изделии</h2>
-                            <p class="about__text">
-                                Manomaestro — премиальный бренд мебели ручной работы на заказ. Мы выросли из материнской компании «Квартирный ответ», переняв 15-летний опыт проектирования и сложнейшего производства интерьерных решений.
-                            </p>
-                            <p class="about__text">
-                                В основе нашей работы — ручной труд опытных мастеров-краснодеревщиков, способных реализовать самые смелые идеи. Каждый предмет создается в единственном экземпляре.
-                            </p>
-                        </div>
-                        <div class="about__facts">
-                            <div class="fact-card">
-                                <h3 class="fact-card__number">15</h3>
-                                <p class="fact-card__label">Лет опыта на рынке премиум-мебели</p>
-                            </div>
-                            <div class="fact-card">
-                                <h3 class="fact-card__number">Custom</h3>
-                                <p class="fact-card__label">Только штучное производство</p>
-                            </div>
-                            <div class="fact-card">
-                                <h3 class="fact-card__number">Handmade</h3>
-                                <p class="fact-card__label">Ручная финишная обработка</p>
-                            </div>
-                            <div class="fact-card">
-                                <h3 class="fact-card__number">Premium</h3>
-                                <p class="fact-card__label">Эксклюзивные материалы</p>
-                            </div>
-                        </div>
+            <!-- СЕТКА КАТАЛОГА -->
+            <section class="catalog-grid">
+                <div class="container">
+                    <div class="catalog-grid__items" id="catalogGrid">
+                        <!-- Карточки будут вставлены через JS -->
                     </div>
                 </div>
             </section>
 
         </main>
 
-        <!-- ======== ПОДВАЛ ======== -->
+        <!-- ПОДВАЛ -->
         <footer class="footer" id="contacts">
             <div class="container footer__container">
                 <div class="footer__top">
                     <div class="footer__brand">
-                        <a href="/" class="logo logo--footer">
-                            <img src="logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
+                        <a href="index.html" class="logo logo--footer">
+                            <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
                         </a>
                         <p class="footer__desc">Премиальная мебель ручной работы для избранных.</p>
                     </div>
@@ -274,9 +250,10 @@
             </div>
         </footer>
 
-    </div> <!-- ======== КОНЕЦ SITE-WRAPPER ======== -->
+    </div>
 
-    <script src="burger.js"></script>
-    <script type="module" src="main.js"></script>
+    <!-- СКРИПТЫ -->
+    <script type="module" src="./src/catalog.js"></script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>

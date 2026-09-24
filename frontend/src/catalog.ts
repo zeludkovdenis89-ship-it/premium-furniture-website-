@@ -1,18 +1,48 @@
 // =========================================================
 // КАТАЛОГ — ПОЛНОСТЬЮ ИСПРАВЛЕННАЯ ВЕРСИЯ
 // =========================================================
-import FavoritesService from './auth/FavoritesService.js';
+
+import FavoritesService, { FavoriteItem } from './auth/FavoritesService.js';
+
+// =========================================================
+// ТИПЫ И ИНТЕРФЕЙСЫ
+// =========================================================
+
+interface Master {
+    name: string;
+    role: string;
+    experience: string;
+    avatar: string;
+    quote: string;
+    link: string;
+}
+
+interface CatalogItem {
+    id: number;
+    title: string;
+    category: string;
+    price: string;
+    material: string;
+    image: string;
+    description: string;
+    dimensions: string;
+    weight: string;
+    guarantee: string;
+    master: Master;
+}
+
 // =========================================================
 // ДАННЫЕ КАТАЛОГА (8 ТОВАРОВ)
 // =========================================================
-const catalogItems = [
+
+const catalogItems: CatalogItem[] = [
     {
         id: 1,
         title: 'Стол «Элеганс»',
         category: 'Столы',
         price: '145 000 ₽',
         material: 'Дуб, металл',
-        image: 'kabinet-rukovoditelya-woodstone.png',
+        image: './public/images/kabinet-rukovoditelya-woodstone.png',
         description: 'Элегантный обеденный стол с изящными ножками и столешницей из массива дуба.',
         dimensions: '180 × 90 × 75 см',
         weight: '85 кг',
@@ -21,7 +51,7 @@ const catalogItems = [
             name: 'Александр К.',
             role: 'Мастер-столяр',
             experience: '12 лет',
-            avatar: 'avatars/master1.jpg',
+            avatar: './public/images/avatars/master1.jpg',
             quote: 'Древесина — живой материал.',
             link: '#master-alexandr'
         }
@@ -32,7 +62,7 @@ const catalogItems = [
         category: 'Диваны',
         price: '89 000 ₽',
         material: 'Орех, велюр',
-        image: 'Мебель из массива дуба_ Процессы создания.png',
+        image: './public/images/Мебель из массива дуба_ Процессы создания.png',
         description: 'Уютный диван с плавными линиями и мягкой велюровой обивкой.',
         dimensions: '80 × 85 × 70 см',
         weight: '32 кг',
@@ -41,7 +71,7 @@ const catalogItems = [
             name: 'Елена М.',
             role: 'Мастер-резчик',
             experience: '8 лет',
-            avatar: 'avatars/master2.jpg',
+            avatar: './public/images/avatars/master2.jpg',
             quote: 'В каждом изгибе — душа дерева.',
             link: '#master-elena'
         }
@@ -52,7 +82,7 @@ const catalogItems = [
         category: 'Шкафы',
         price: '210 000 ₽',
         material: 'Массив ясеня, стекло',
-        image: 'shkaf-raspashnoj-v-zal-v-sovremennom-stile.png',
+        image: './public/images/shkaf-raspashnoj-v-zal-v-sovremennom-stile.png',
         description: 'Вместительный шкаф с резными фасадами и стеклянными вставками.',
         dimensions: '200 × 60 × 220 см',
         weight: '120 кг',
@@ -61,7 +91,7 @@ const catalogItems = [
             name: 'Дмитрий С.',
             role: 'Мастер-столяр',
             experience: '15 лет',
-            avatar: 'avatars/master3.jpg',
+            avatar: './public/images/avatars/master3.jpg',
             quote: 'Шкаф — это хранение историй.',
             link: '#master-dmitry'
         }
@@ -72,7 +102,7 @@ const catalogItems = [
         category: 'Комоды',
         price: '98 000 ₽',
         material: 'Махагон, латунь',
-        image: '908045.png',
+        image: './public/images/908045.png',
         description: 'Изысканный комод с ручной фрезеровкой и латунными ручками.',
         dimensions: '120 × 45 × 90 см',
         weight: '55 кг',
@@ -81,7 +111,7 @@ const catalogItems = [
             name: 'Андрей В.',
             role: 'Мастер-фрезеровщик',
             experience: '10 лет',
-            avatar: 'avatars/master4.jpg',
+            avatar: './public/images/avatars/master4.jpg',
             quote: 'Каждая линия — диалог с деревом.',
             link: '#master-andrey'
         }
@@ -92,7 +122,7 @@ const catalogItems = [
         category: 'Кровати',
         price: '320 000 ₽',
         material: 'Орех, натуральная кожа',
-        image: 'NK263.24_interior_2.png',
+        image: './public/images/NK263.24_interior_2.png',
         description: 'Роскошная кровать с высоким изголовьем и резными ножками.',
         dimensions: '200 × 180 × 120 см',
         weight: '150 кг',
@@ -101,7 +131,7 @@ const catalogItems = [
             name: 'Сергей П.',
             role: 'Мастер-столяр',
             experience: '20 лет',
-            avatar: 'avatars/master5.jpg',
+            avatar: './public/images/avatars/master5.jpg',
             quote: 'Кровать должна быть особенной.',
             link: '#master-sergey'
         }
@@ -112,7 +142,7 @@ const catalogItems = [
         category: 'Стеллажи',
         price: '75 000 ₽',
         material: 'Береза, металл',
-        image: 'i0000167720-detail.png',
+        image: './public/images/i0000167720-detail.png',
         description: 'Современный стеллаж с открытыми полками и металлическим каркасом.',
         dimensions: '150 × 40 × 200 см',
         weight: '45 кг',
@@ -121,7 +151,7 @@ const catalogItems = [
             name: 'Михаил К.',
             role: 'Мастер-металлист',
             experience: '7 лет',
-            avatar: 'avatars/master6.jpg',
+            avatar: './public/images/avatars/master6.jpg',
             quote: 'Металл и дерево — идеальный союз.',
             link: '#master-mikhail'
         }
@@ -132,7 +162,7 @@ const catalogItems = [
         category: 'Консоли',
         price: '67 000 ₽',
         material: 'Орех, мрамор',
-        image: 'bybse499cwkxvcdkym1v4538zluz5mab.png',
+        image: './public/images/bybse499cwkxvcdkym1v4538zluz5mab.png',
         description: 'Изящная консоль с мраморной столешницей и резными ножками.',
         dimensions: '100 × 35 × 85 см',
         weight: '38 кг',
@@ -141,7 +171,7 @@ const catalogItems = [
             name: 'Ольга Г.',
             role: 'Мастер-резчик',
             experience: '9 лет',
-            avatar: 'avatars/master7.jpg',
+            avatar: './public/images/avatars/master7.jpg',
             quote: 'Камень и дерево — единое целое.',
             link: '#master-olga'
         }
@@ -152,7 +182,7 @@ const catalogItems = [
         category: 'Тумбы',
         price: '54 000 ₽',
         material: 'Дуб, ротанг',
-        image: 'tumba.png',
+        image: './public/images/tumba.png',
         description: 'Стильная прикроватная тумба с плетёными вставками из ротанга.',
         dimensions: '50 × 40 × 60 см',
         weight: '18 кг',
@@ -161,57 +191,62 @@ const catalogItems = [
             name: 'Ирина Л.',
             role: 'Мастер-плетельщик',
             experience: '6 лет',
-            avatar: 'avatars/master8.jpg',
+            avatar: './public/images/avatars/master8.jpg',
             quote: 'Ротанг — материал живых линий.',
             link: '#master-irina'
         }
     }
 ];
+
 // =========================================================
 // ОСНОВНОЙ КОД
 // =========================================================
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function() {
     console.log('✨ Каталог: скрипт загружен');
+
     // 1. ПРЕЛОАДЕР
-    const preloader = document.getElementById('catalogPreloader');
-    const siteWrapper = document.getElementById('siteWrapper');
+    const preloader = document.getElementById('catalogPreloader') as HTMLElement | null;
+    const siteWrapper = document.getElementById('siteWrapper') as HTMLElement | null;
+
     if (preloader) {
         setTimeout(() => {
             preloader.classList.add('catalog-preloader--hidden');
             setTimeout(() => {
-                if (preloader)
-                    preloader.style.display = 'none';
-                if (siteWrapper)
-                    siteWrapper.classList.add('site-wrapper--visible');
+                if (preloader) preloader.style.display = 'none';
+                if (siteWrapper) siteWrapper.classList.add('site-wrapper--visible');
                 animateHeader();
                 animateHero();
                 loadCatalogItems();
             }, 500);
         }, 1200);
-    }
-    else {
-        if (siteWrapper)
-            siteWrapper.classList.add('site-wrapper--visible');
+    } else {
+        if (siteWrapper) siteWrapper.classList.add('site-wrapper--visible');
         animateHeader();
         animateHero();
         loadCatalogItems();
     }
+
     // 2. FOOTER
     forceShowFooter();
     setTimeout(forceShowFooter, 200);
+
     // 3. ИНИЦИАЛИЗАЦИЯ UI
     initBurger();
     initModal();
     initHeaderScroll();
     initServicesDropdown();
 });
+
 // =========================================================
 // УВЕДОМЛЕНИЯ
 // =========================================================
-function showNotification(message) {
+
+function showNotification(message: string): void {
     // Удаляем старые уведомления
     const oldNotifications = document.querySelectorAll('.custom-notification');
     oldNotifications.forEach(n => n.remove());
+
     const notification = document.createElement('div');
     notification.className = 'custom-notification';
     notification.style.cssText = `
@@ -234,60 +269,74 @@ function showNotification(message) {
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
+
     requestAnimationFrame(() => {
         notification.style.opacity = '1';
         notification.style.transform = 'translateY(0)';
     });
+
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transform = 'translateY(20px)';
         setTimeout(() => {
-            if (notification.parentNode)
-                notification.remove();
+            if (notification.parentNode) notification.remove();
         }, 500);
     }, 2500);
 }
+
 // =========================================================
 // РАБОТА С ИЗБРАННЫМ (ИСПРАВЛЕННАЯ)
 // =========================================================
+
 let isProcessingFavorite = false;
-async function initFavoriteButtons() {
-    const buttons = document.querySelectorAll('.favorite-btn');
+
+async function initFavoriteButtons(): Promise<void> {
+    const buttons = document.querySelectorAll<HTMLElement>('.favorite-btn');
+    
     buttons.forEach((btn) => {
         // 🔥 Убеждаемся, что кнопка НЕ submit
         btn.setAttribute('type', 'button');
+        
         // 🔥 Удаляем все старые обработчики
-        const newBtn = btn.cloneNode(true);
+        const newBtn = btn.cloneNode(true) as HTMLElement;
         if (btn.parentNode) {
             btn.parentNode.replaceChild(newBtn, btn);
         }
+        
         // 🔥 Добавляем новый обработчик
         newBtn.addEventListener('click', handleFavoriteClick);
     });
 }
-async function handleFavoriteClick(e) {
+
+async function handleFavoriteClick(e: Event): Promise<void> {
     // 🔥🔥🔥 КРИТИЧЕСКИ ВАЖНО: блокируем перезагрузку
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
+
     if (isProcessingFavorite) {
         console.log('⏳ Уже обрабатывается');
         return;
     }
-    const target = e.currentTarget;
+    
+    const target = e.currentTarget as HTMLElement;
     const id = parseInt(target.dataset.id || '0');
-    const type = (target.dataset.type || 'catalog');
+    const type = (target.dataset.type || 'catalog') as 'catalog' | 'project';
+    
     if (!id) {
         console.warn('⚠️ Нет ID товара');
         return;
     }
+    
     console.log(`🔄 Клик по избранному: id=${id}, type=${type}`);
     isProcessingFavorite = true;
+    
     // Сохраняем оригинальный текст
     const originalText = target.textContent || '☆ Добавить в избранное';
     target.textContent = '⏳ ...';
     target.style.opacity = '0.6';
     target.style.pointerEvents = 'none';
+    
     try {
         // Проверяем токен
         const token = localStorage.getItem('manomaestro_token') || sessionStorage.getItem('manomaestro_token');
@@ -299,8 +348,10 @@ async function handleFavoriteClick(e) {
             isProcessingFavorite = false;
             return;
         }
+        
         const isFav = await FavoritesService.isFavorite(id, type);
         console.log(`🔍 Товар ${id} в избранном: ${isFav}`);
+        
         if (isFav) {
             // УДАЛЕНИЕ
             const success = await FavoritesService.removeFavorite(id, type);
@@ -309,37 +360,37 @@ async function handleFavoriteClick(e) {
                 updateAllRelatedButtons(id, false);
                 showNotification('🗑️ Удалено из избранного');
                 console.log(`🗑️ Удален из избранного: ${id}`);
-            }
-            else {
+            } else {
                 showNotification('⚠️ Ошибка при удалении');
                 target.textContent = originalText;
                 target.style.opacity = '1';
                 target.style.pointerEvents = 'auto';
             }
-        }
-        else {
+        } else {
             // ДОБАВЛЕНИЕ
             const card = target.closest('.catalog-item') || target.closest('.project-card') || target.closest('.product-modal');
+            
             if (card) {
                 let title = 'Товар';
                 let price = '0 ₽';
                 let image = '';
                 let category = '';
                 let description = '';
+
                 if (card.classList.contains('catalog-item')) {
                     title = card.querySelector('.catalog-item__title')?.textContent?.trim() || 'Товар';
                     price = card.querySelector('.catalog-item__price')?.textContent?.trim() || '0 ₽';
                     image = card.querySelector('img')?.getAttribute('src') || '';
                     category = card.querySelector('.catalog-item__category')?.textContent?.trim() || '';
                     description = card.querySelector('.catalog-item__description')?.textContent?.trim() || '';
-                }
-                else if (card.classList.contains('product-modal')) {
+                } else if (card.classList.contains('product-modal')) {
                     title = card.querySelector('.product-modal__title')?.textContent?.trim() || 'Товар';
                     price = card.querySelector('.product-modal__price')?.textContent?.trim() || '0 ₽';
                     image = card.querySelector('.product-modal__image')?.getAttribute('src') || '';
                     category = card.querySelector('.product-modal__badge')?.textContent?.trim() || '';
                     description = card.querySelector('.product-modal__desc')?.textContent?.trim() || '';
                 }
+                
                 const success = await FavoritesService.addFavorite({
                     productId: id,
                     productType: type,
@@ -349,79 +400,83 @@ async function handleFavoriteClick(e) {
                     category: category,
                     description: description
                 });
+                
                 if (success) {
                     updateButtonState(target, true);
                     updateAllRelatedButtons(id, true);
                     showNotification('❤️ Добавлено в избранное');
                     console.log(`❤️ Добавлен в избранное: ${title}`);
-                }
-                else {
+                } else {
                     showNotification('⚠️ Ошибка при добавлении');
                     target.textContent = originalText;
                     target.style.opacity = '1';
                     target.style.pointerEvents = 'auto';
                 }
-            }
-            else {
+            } else {
                 console.warn('⚠️ Не найдена карточка товара');
                 target.textContent = originalText;
                 target.style.opacity = '1';
                 target.style.pointerEvents = 'auto';
             }
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.error('❌ Ошибка при работе с избранным:', error);
         showNotification('⚠️ Ошибка соединения с сервером');
         target.textContent = originalText;
         target.style.opacity = '1';
         target.style.pointerEvents = 'auto';
-    }
-    finally {
+    } finally {
         isProcessingFavorite = false;
     }
 }
-function updateButtonState(btn, isFavorite) {
+
+function updateButtonState(btn: HTMLElement, isFavorite: boolean): void {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
+    
     if (isFavorite) {
         btn.textContent = '★ В избранном';
         btn.classList.add('favorite-btn--active');
-    }
-    else {
+    } else {
         btn.textContent = '☆ Добавить в избранное';
         btn.classList.remove('favorite-btn--active');
     }
 }
-function updateAllRelatedButtons(productId, isFavorite) {
-    const allBtns = document.querySelectorAll(`.favorite-btn[data-id="${productId}"]`);
+
+function updateAllRelatedButtons(productId: number, isFavorite: boolean): void {
+    const allBtns = document.querySelectorAll<HTMLElement>(`.favorite-btn[data-id="${productId}"]`);
     allBtns.forEach(btn => {
         updateButtonState(btn, isFavorite);
     });
 }
+
 // =========================================================
 // ЗАГРУЗКА КАРТОЧЕК
 // =========================================================
-async function loadCatalogItems() {
-    const grid = document.getElementById('catalogGrid');
+
+async function loadCatalogItems(): Promise<void> {
+    const grid = document.getElementById('catalogGrid') as HTMLElement | null;
+    
     if (!grid) {
         console.error('❌ Сетка каталога (catalogGrid) не найдена!');
         return;
     }
+
     // Загружаем избранное
-    let favorites = [];
+    let favorites: FavoriteItem[] = [];
     try {
         favorites = await FavoritesService.getFavorites();
         console.log(`📥 Загружено избранное: ${favorites.length} товаров`);
-    }
-    catch (error) {
+    } catch (error) {
         console.warn('⚠️ Не удалось загрузить избранное:', error);
     }
+
     let html = '';
     catalogItems.forEach((item) => {
         const isFavorite = favorites.some(f => f.product_id === item.id && f.product_type === 'catalog');
         const btnText = isFavorite ? '★ В избранном' : '☆ Добавить в избранное';
         const btnClass = isFavorite ? 'favorite-btn--active' : '';
+        
         html += `
             <div class="catalog-item" data-id="${item.id}" data-product='${JSON.stringify(item).replace(/'/g, "&#39;")}'>
                 <div class="catalog-item__image-wrapper">
@@ -456,31 +511,38 @@ async function loadCatalogItems() {
             </div>
         `;
     });
+
     grid.innerHTML = html;
+
     // Анимация
     animateCatalogItems();
+
     // Инициализация кнопок избранного
     await initFavoriteButtons();
+
     // 🔥 Делегирование событий для кликов по карточкам
-    grid.addEventListener('click', function (e) {
-        const target = e.target;
+    grid.addEventListener('click', function(e: MouseEvent) {
+        const target = e.target as HTMLElement;
+        
         // Если кликнули на кнопку избранного - ничего не делаем
         if (target.closest('.favorite-btn')) {
             return;
         }
+
         // Если кликнули на кнопку "Изучить мебель"
         const studyBtn = target.closest('.catalog-item__btn');
         if (studyBtn) {
             e.preventDefault();
             const card = studyBtn.closest('.catalog-item');
-            if (card)
-                openProductFromCard(card);
+            if (card) openProductFromCard(card);
             return;
         }
+
         // Если кликнули на ссылку мастера - пусть переходит
         if (target.closest('a')) {
             return;
         }
+
         // Иначе открываем модалку товара
         const card = target.closest('.catalog-item');
         if (card) {
@@ -488,36 +550,40 @@ async function loadCatalogItems() {
         }
     });
 }
-function openProductFromCard(card) {
+
+function openProductFromCard(card: Element): void {
     const productData = card.getAttribute('data-product');
     if (productData) {
         try {
-            const product = JSON.parse(productData);
+            const product: CatalogItem = JSON.parse(productData);
             openProductModal(product);
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Ошибка парсинга данных товара:', error);
         }
     }
 }
+
 // =========================================================
 // МОДАЛЬНОЕ ОКНО ТОВАРА
 // =========================================================
-async function openProductModal(product) {
-    if (document.getElementById('productModal'))
-        return;
+
+async function openProductModal(product: CatalogItem): Promise<void> {
+    if (document.getElementById('productModal')) return;
+
     let isFavorite = false;
     try {
         isFavorite = await FavoritesService.isFavorite(product.id, 'catalog');
-    }
-    catch (error) {
+    } catch (error) {
         console.warn('⚠️ Не удалось проверить избранное:', error);
     }
+
     const modalOverlay = document.createElement('div');
     modalOverlay.className = 'product-modal-overlay';
     modalOverlay.id = 'productModal';
+
     const btnText = isFavorite ? '★ В избранном' : '☆ Добавить в избранное';
     const btnClass = isFavorite ? 'favorite-btn--active' : '';
+
     modalOverlay.innerHTML = `
         <div class="product-modal">
             <button type="button" class="product-modal__close" id="productModalClose">
@@ -574,46 +640,55 @@ async function openProductModal(product) {
             </div>
         </div>
     `;
+
     document.body.appendChild(modalOverlay);
     document.body.classList.add('no-scroll');
+
     requestAnimationFrame(() => {
         modalOverlay.classList.add('product-modal-overlay--active');
     });
+
     // Закрытие
     const closeBtn = document.getElementById('productModalClose');
     closeBtn?.addEventListener('click', () => closeProductModal(modalOverlay));
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay)
-            closeProductModal(modalOverlay);
+
+    modalOverlay.addEventListener('click', (e: MouseEvent) => {
+        if (e.target === modalOverlay) closeProductModal(modalOverlay);
     });
-    const escHandler = (e) => {
+
+    const escHandler = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             closeProductModal(modalOverlay);
             document.removeEventListener('keydown', escHandler);
         }
     };
     document.addEventListener('keydown', escHandler);
+
     // Консультация
     document.getElementById('productModalConsult')?.addEventListener('click', () => {
         alert(`📞 Заявка на консультацию по "${product.title}"`);
         closeProductModal(modalOverlay);
     });
+
     // Избранное в модалке
     const favBtn = modalOverlay.querySelector('.product-modal__favorite-btn');
     if (favBtn) {
         favBtn.addEventListener('click', handleFavoriteClick);
     }
 }
-function closeProductModal(modalOverlay) {
+
+function closeProductModal(modalOverlay: HTMLElement): void {
     modalOverlay.classList.remove('product-modal-overlay--active');
     document.body.classList.remove('no-scroll');
     setTimeout(() => modalOverlay.remove(), 400);
 }
+
 // =========================================================
 // АНИМАЦИИ И UI ФУНКЦИИ
 // =========================================================
-function forceShowFooter() {
-    const footer = document.querySelector('.footer');
+
+function forceShowFooter(): void {
+    const footer = document.querySelector('.footer') as HTMLElement | null;
     if (footer) {
         Object.assign(footer.style, {
             display: 'block',
@@ -626,8 +701,9 @@ function forceShowFooter() {
         footer.classList.add('footer--visible');
     }
 }
-function animateHeader() {
-    const logo = document.querySelector('.logo');
+
+function animateHeader(): void {
+    const logo = document.querySelector('.logo') as HTMLElement | null;
     if (logo) {
         logo.style.opacity = '0';
         logo.style.transform = 'translateX(-30px) scale(0.9)';
@@ -639,8 +715,9 @@ function animateHeader() {
     }
     // ... остальная анимация ...
 }
-function animateHero() {
-    const hero = document.querySelector('.catalog-hero');
+
+function animateHero(): void {
+    const hero = document.querySelector('.catalog-hero') as HTMLElement | null;
     if (hero) {
         hero.style.opacity = '0';
         hero.style.transform = 'translateY(30px) scale(0.98)';
@@ -651,8 +728,9 @@ function animateHero() {
         }, 300);
     }
 }
-function animateCatalogItems() {
-    const items = document.querySelectorAll('.catalog-item');
+
+function animateCatalogItems(): void {
+    const items = document.querySelectorAll<HTMLElement>('.catalog-item');
     items.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateY(40px) scale(0.95)';
@@ -663,40 +741,48 @@ function animateCatalogItems() {
         }, 300 + (index * 80));
     });
 }
+
 // =========================================================
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // =========================================================
-function initBurger() {
-    const burger = document.getElementById('burger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileMenuClose = document.getElementById('mobileMenuClose');
-    if (!burger || !mobileMenu)
-        return;
+
+function initBurger(): void {
+    const burger = document.getElementById('burger') as HTMLElement | null;
+    const mobileMenu = document.getElementById('mobileMenu') as HTMLElement | null;
+    const mobileMenuClose = document.getElementById('mobileMenuClose') as HTMLElement | null;
+    
+    if (!burger || !mobileMenu) return;
+
     const toggleMenu = () => {
         const isActive = mobileMenu.classList.contains('mobile-menu--active');
         burger.classList.toggle('burger--active');
         mobileMenu.classList.toggle('mobile-menu--active');
         document.body.classList.toggle('no-scroll');
     };
+
     burger.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleMenu();
     });
+
     mobileMenuClose?.addEventListener('click', toggleMenu);
+    
     document.addEventListener('click', (e) => {
-        if (mobileMenu.classList.contains('mobile-menu--active') &&
-            !mobileMenu.contains(e.target) &&
-            !burger.contains(e.target)) {
+        if (mobileMenu.classList.contains('mobile-menu--active') && 
+            !mobileMenu.contains(e.target as Node) && 
+            !burger.contains(e.target as Node)) {
             toggleMenu();
         }
     });
 }
-function initModal() {
-    const toggle = document.getElementById('mobileServicesToggle');
-    const modal = document.getElementById('servicesModal');
-    const close = document.getElementById('modalClose');
-    if (!modal)
-        return;
+
+function initModal(): void {
+    const toggle = document.getElementById('mobileServicesToggle') as HTMLElement | null;
+    const modal = document.getElementById('servicesModal') as HTMLElement | null;
+    const close = document.getElementById('modalClose') as HTMLElement | null;
+    
+    if (!modal) return;
+
     const open = () => {
         modal.classList.add('modal-overlay--active');
         document.body.classList.add('no-scroll');
@@ -705,27 +791,30 @@ function initModal() {
         modal.classList.remove('modal-overlay--active');
         document.body.classList.remove('no-scroll');
     };
+
     toggle?.addEventListener('click', (e) => {
         e.preventDefault();
         open();
     });
     close?.addEventListener('click', closeFn);
     modal.addEventListener('click', (e) => {
-        if (e.target === modal)
-            closeFn();
+        if (e.target === modal) closeFn();
     });
 }
-function initHeaderScroll() {
-    const header = document.getElementById('header');
+
+function initHeaderScroll(): void {
+    const header = document.getElementById('header') as HTMLElement | null;
     if (header) {
         window.addEventListener('scroll', () => {
             header.classList.toggle('header--scrolled', window.pageYOffset > 80);
         });
     }
 }
-function initServicesDropdown() {
-    const toggle = document.getElementById('servicesToggle');
-    const dropdown = document.getElementById('servicesDropdown');
+
+function initServicesDropdown(): void {
+    const toggle = document.getElementById('servicesToggle') as HTMLElement | null;
+    const dropdown = document.getElementById('servicesDropdown') as HTMLElement | null;
+
     if (toggle && dropdown) {
         toggle.addEventListener('click', (e) => {
             if (window.innerWidth <= 1200) {
