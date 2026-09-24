@@ -1,0 +1,30 @@
+# Зависимости
+node_modules/
+backend/node_modules/
+
+# База данных
+db/database.sqlite
+backend/db/database.sqlite
+*.sqlite
+*.sqlite3
+
+# Переменные окружения (СЕКРЕТЫ!)
+.env
+*.env
+.env.*
+
+# Логи
+*.log
+npm-debug.log*
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Сборка
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
