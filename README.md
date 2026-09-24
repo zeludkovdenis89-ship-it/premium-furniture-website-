@@ -1,6 +1,7 @@
-# Manomaestro - Премиальный сайт мебели
+# Manomaestro — Премиальный сайт мебели
 
-Сайт для компании, занимающейся изготовлением мебели ручной работы. Включает каталог товаров, избранное, личный кабинет и систему авторизации.
+Сайт для компании, занимающейся изготовлением мебели ручной работы.  
+Включает каталог товаров, избранное, личный кабинет и систему авторизации.
 
 ## Технологии
 
@@ -22,28 +23,29 @@
 - dotenv для хранения секретов
 
 ## Структура проекта
-premium-furniture-website-/
-├── backend/ # Бэкенд сервер
-│ ├── server.js # Главный файл сервера
-│ ├── package.json # Зависимости бэкенда
-│ └── db/ # Папка с базой данных
-│ └── database.sqlite # SQLite база (создается автоматически)
-├── auth/ # Модули авторизации
-│ ├── AuthService.ts # Сервис авторизации
-│ ├── AuthModal.ts # Модальное окно входа/регистрации
-│ ├── FavoritesService.ts # Сервис избранного
-│ └── authh.css # Стили авторизации
-├── catalog.html # Страница каталога
-├── catalog.ts # Логика каталога
-├── cabinet.html # Личный кабинет
-├── cabinet.ts # Логика кабинета
-├── main.ts # Общий скрипт сайта
-├── style.css # Основные стили
-├── cataloge.css # Стили каталога
-├── cabinet.css # Стили кабинета
-└── README.md # Документация
 
-text
+```text
+premium-furniture-website-/
+├── backend/                     # Бэкенд сервер
+│   ├── server.js                # Главный файл сервера
+│   ├── package.json             # Зависимости бэкенда
+│   └── db/                      # Папка с базой данных
+│       └── database.sqlite      # SQLite база (создается автоматически)
+├── auth/                        # Модули авторизации
+│   ├── AuthService.ts           # Сервис авторизации
+│   ├── AuthModal.ts             # Модальное окно входа/регистрации
+│   ├── FavoritesService.ts      # Сервис избранного
+│   └── authh.css                # Стили авторизации
+├── catalog.html                 # Страница каталога
+├── catalog.ts                   # Логика каталога
+├── cabinet.html                 # Личный кабинет
+├── cabinet.ts                   # Логика кабинета
+├── main.ts                      # Общий скрипт сайта
+├── style.css                    # Основные стили
+├── cataloge.css                 # Стили каталога
+├── cabinet.css                  # Стили кабинета
+└── README.md                    # Документация
+```
 
 ## Требования
 
@@ -54,41 +56,46 @@ text
 ## Установка
 
 ### 1. Клонирование репозитория
+
+```bash
 git clone https://github.com/zeludkovdenis89-ship-it/premium-furniture-website-.git
 cd premium-furniture-website-
-
-text
+```
 
 ### 2. Установка зависимостей бэкенда
+
+```bash
 cd backend
 npm install
-
-text
+```
 
 ### 3. Установка глобальных зависимостей
 
 Для запуска фронтенда потребуется `serve`:
-npm install -g serve
 
-text
+```bash
+npm install -g serve
+```
 
 ## Настройка окружения
 
 Создайте файл `.env` в папке `backend` со следующим содержимым:
+
+```env
 JWT_SECRET=ваш_секретный_ключ_для_access_токена
 JWT_REFRESH_SECRET=ваш_секретный_ключ_для_refresh_токена
 JWT_EXPIRES_IN=7d
 REFRESH_TOKEN_EXPIRES_IN=30d
 PORT=3001
-
-text
+```
 
 ### Генерация секретных ключей
 
 Выполните команду в терминале для генерации безопасных ключей:
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
-text
+```bash
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
 
 Скопируйте полученный ключ и вставьте в `.env`. Повторите для второго ключа.
 
@@ -96,13 +103,16 @@ text
 
 Для работы сайта необходимо запустить два сервера: бэкенд и фронтенд.
 
-### Терминал 1 - Бэкенд
+### Терминал 1 — Бэкенд
+
+```bash
 cd backend
 node server.js
-
-text
+```
 
 Ожидаемый вывод:
+
+```text
 Подключено к SQLite БД
 Таблица users готова
 Таблица favorites готова
@@ -112,29 +122,30 @@ text
 CORS: разрешены только доверенные домены
 Rate Limiting: активен
 Helmet: активен
+```
 
-text
+### Терминал 2 — Фронтенд
 
-### Терминал 2 - Фронтенд
+```bash
 npx serve -p 8000
-
-text
+```
 
 Ожидаемый вывод:
+
+```text
 Serving!
 
-Local: http://localhost:8000
-
+Local:   http://localhost:8000
 Network: http://192.168.x.x:8000
-
-text
+```
 
 ### Открытие сайта
 
 Откройте браузер и перейдите по адресу:
-http://localhost:8000
 
-text
+```text
+http://localhost:8000
+```
 
 ## Функционал
 
@@ -182,77 +193,83 @@ text
 
 | Метод | Endpoint | Описание |
 |-------|----------|----------|
-| POST | /api/auth/register | Регистрация нового пользователя |
-| POST | /api/auth/login | Вход в систему |
-| POST | /api/auth/refresh | Обновление access-токена |
-| POST | /api/auth/logout | Выход из системы |
-| GET | /api/auth/me | Получение данных текущего пользователя |
-| PUT | /api/auth/profile | Обновление профиля |
-| PUT | /api/auth/avatar | Обновление аватарки |
+| POST | `/api/auth/register` | Регистрация нового пользователя |
+| POST | `/api/auth/login` | Вход в систему |
+| POST | `/api/auth/refresh` | Обновление access-токена |
+| POST | `/api/auth/logout` | Выход из системы |
+| GET | `/api/auth/me` | Получение данных текущего пользователя |
+| PUT | `/api/auth/profile` | Обновление профиля |
+| PUT | `/api/auth/avatar` | Обновление аватарки |
 
 ### Избранное
 
 | Метод | Endpoint | Описание |
 |-------|----------|----------|
-| GET | /api/favorites | Получение списка избранного |
-| POST | /api/favorites | Добавление товара в избранное |
-| DELETE | /api/favorites/:productId | Удаление товара из избранного |
+| GET | `/api/favorites` | Получение списка избранного |
+| POST | `/api/favorites` | Добавление товара в избранное |
+| DELETE | `/api/favorites/:productId` | Удаление товара из избранного |
 
 ## Разработка
 
 ### Компиляция TypeScript
 
 Если вы вносите изменения в `.ts` файлы, их нужно скомпилировать в `.js`:
-npx tsc
 
-text
+```bash
+npx tsc
+```
 
 Или используйте режим наблюдения:
-npx tsc --watch
 
-text
+```bash
+npx tsc --watch
+```
 
 ### Структура базы данных
 
 **Таблица users:**
-- id (INTEGER, PRIMARY KEY)
-- name (TEXT)
-- email (TEXT, UNIQUE, может быть NULL)
-- phone (TEXT, UNIQUE, NOT NULL)
-- password (TEXT, хешированный)
-- avatar (TEXT, base64 изображение)
-- refresh_token (TEXT)
-- token_version (INTEGER)
-- login_attempts (INTEGER)
-- locked_until (DATETIME)
-- created_at (DATETIME)
-- updated_at (DATETIME)
+
+- `id` — INTEGER, PRIMARY KEY
+- `name` — TEXT
+- `email` — TEXT, UNIQUE, может быть NULL
+- `phone` — TEXT, UNIQUE, NOT NULL
+- `password` — TEXT, хешированный
+- `avatar` — TEXT, base64 изображение
+- `refresh_token` — TEXT
+- `token_version` — INTEGER
+- `login_attempts` — INTEGER
+- `locked_until` — DATETIME
+- `created_at` — DATETIME
+- `updated_at` — DATETIME
 
 **Таблица favorites:**
-- id (INTEGER, PRIMARY KEY)
-- user_id (INTEGER, FOREIGN KEY)
-- product_id (INTEGER)
-- product_type (TEXT)
-- product_title (TEXT)
-- product_price (TEXT)
-- product_image (TEXT)
-- product_category (TEXT)
-- product_description (TEXT)
-- created_at (DATETIME)
+
+- `id` — INTEGER, PRIMARY KEY
+- `user_id` — INTEGER, FOREIGN KEY
+- `product_id` — INTEGER
+- `product_type` — TEXT
+- `product_title` — TEXT
+- `product_price` — TEXT
+- `product_image` — TEXT
+- `product_category` — TEXT
+- `product_description` — TEXT
+- `created_at` — DATETIME
 
 ## Решение проблем
 
 ### Порт уже используется
 
 Если при запуске появляется ошибка `address already in use`:
+
+```bash
 netstat -ano | findstr :3001
 taskkill /PID <PID> /F
-
-text
+```
 
 ### CORS ошибка
 
-Убедитесь, что фронтенд запущен на порту 8000. Если используете другой порт, добавьте его в массив `allowedOrigins` в `server.js`.
+Убедитесь, что фронтенд запущен на порту 8000.  
+Если используете другой порт, добавьте его в массив `allowedOrigins` в `server.js`.
 
 ### База данных не создается
 
@@ -268,6 +285,6 @@ text
 
 ## Автор
 
-Денис Зелудков
+Денис Желудков
 
-GitHub: https://github.com/zeludkovdenis89-ship-it
+GitHub: [https://github.com/zeludkovdenis89-ship-it](https://github.com/zeludkovdenis89-ship-it)
