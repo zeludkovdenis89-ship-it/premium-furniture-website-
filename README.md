@@ -8,9 +8,10 @@
 ## Технологии
 
 ### Фронтенд
+- **Vite** — сборка, dev-сервер с HMR, проксирование API
 - TypeScript
 - HTML5 / CSS3
-- ES-модули (`<script type="module">`)
+- ES-модули (Vite компилирует TS автоматически)
 - Fetch API
 - Модульная архитектура
 
@@ -38,14 +39,17 @@ premium-furniture-website-/
 │   └── db/
 │       └── database.sqlite           # SQLite база (создаётся автоматически)
 │
-├── frontend/                         # Фронтенд
+├── frontend/                         # Фронтенд на Vite
 │   ├── index.html                    # Главная страница
 │   ├── catalog.html                  # Каталог товаров
 │   ├── cabinet.html                  # Личный кабинет
 │   ├── projects.html                 # Портфолио проектов
+│   ├── vite.config.ts                # Конфиг Vite
 │   ├── tsconfig.json                 # Конфиг TypeScript
+│   ├── package.json                  # Зависимости фронтенда (Vite, TypeScript)
+│   ├── package-lock.json             # Фиксация версий (коммитится!)
 │   │
-│   ├── public/                       # Статические ассеты
+│   ├── public/                       # Статика (отдаётся с корня /)
 │   │   ├── images/                   # Картинки (логотип, товары, проекты)
 │   │   │   ├── logo.png
 │   │   │   ├── hero-bg.jpg
@@ -54,11 +58,11 @@ premium-furniture-website-/
 │   │       └── 4935202_House_Furniture_1280x720.mp4
 │   │
 │   └── src/                          # Исходники
-│       ├── main.ts                   # Общий скрипт сайта
+│       ├── main.ts                   # Общий скрипт / логика кабинета
 │       ├── catalog.ts                # Логика каталога
 │       ├── cabinet.ts                # Логика кабинета
 │       ├── projects.ts               # Логика страницы проектов
-│       ├── burger.ts                 # Мобильное меню
+│       ├── burger.ts                 # Мобильное меню (главная)
 │       ├── auth/
 │       │   ├── AuthService.ts        # Сервис авторизации
 │       │   ├── AuthModal.ts          # Модальное окно входа/регистрации
@@ -73,6 +77,9 @@ premium-furniture-website-/
 ├── .gitignore
 └── README.md
 ```
+
+> **Важно:** папка `public/` лежит **в корне `frontend/`**, а не внутри `src/`.  
+> Vite раздаёт её содержимое по адресу `/`, поэтому в HTML путь к логотипу — `/images/logo.png` (**без** `public/`).
 
 ---
 
@@ -100,11 +107,14 @@ cd backend
 npm install
 ```
 
-### 3. Установка `serve` (для фронтенда)
+### 3. Установка зависимостей фронтенда (Vite)
 
 ```bash
-npm install -g serve
+cd ../frontend
+npm install
 ```
+
+Это установит `vite` и `typescript` в `frontend/node_modules/`. Отдельно `serve` больше не нужен — его роль выполняет Vite.
 
 ---
 
@@ -146,101 +156,88 @@ node server.js
 Ожидаемый вывод:
 
 ```text
-Подключено к SQLite БД
-Таблица users готова
-Таблица favorites готова
-Индексы созданы
-Сервер запущен на http://localhost:3001
-Безопасность: JWT_SECRET установлен
-CORS: разрешены только доверенные домены
-Rate Limiting: активен
-Helmet: активен
+✔ Подключено к SQLite БД
+✔ Таблица users готова
+✔ Таблица favorites готова
+✔ Индексы созданы
+✔ Сервер запущен на http://localhost:3001
+🔒 Безопасность: JWT_SECRET установлен
+🔒 CORS: разрешены только доверенные домены
+🔒 Rate Limiting: активен
+🔒 Helmet: активен
 ```
 
-### Терминал 2 — Фронтенд
-
-Сначала скомпилируй TypeScript:
+### Терминал 2 — Фронтенд (Vite)
 
 ```bash
 cd frontend
-npx tsc
-```
-
-Затем запусти статический сервер:
-
-```bash
-npx serve -p 8000
+npm run dev
 ```
 
 Ожидаемый вывод:
 
 ```text
-Serving!
+  VITE v7.x.x  ready in 300 ms
 
-Local:   http://localhost:8000
-Network: http://192.168.x.x:8000
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
 ```
 
 ### Открытие сайта
 
-В браузере:
+В браузере открой:
 
 ```text
-http://localhost:8000
+http://localhost:5173/
 ```
 
 Конкретные страницы:
 
 ```text
-http://localhost:8000/index.html
-http://localhost:8000/catalog.html
-http://localhost:8000/cabinet.html
-http://localhost:8000/projects.html
+http://localhost:5173/index.html
+http://localhost:5173/catalog.html
+http://localhost:5173/cabinet.html
+http://localhost:5173/projects.html
 ```
 
-> **Важно:** `serve` должен быть запущен **из папки `frontend/`**, где лежат HTML-файлы. Если запустить из корня проекта — `serve` покажет листинг директории вместо сайта.
+> **HMR работает автоматически:** правь `.ts` или `.css` файл — браузер обновится сам, без перезагрузки.
 
 ---
 
 ## Разработка
 
-### Компиляция TypeScript
+### Основные команды
 
-После изменений в `.ts` файлах:
+| Задача | Команда |
+|--------|---------|
+| Запустить dev-сервер | `cd frontend && npm run dev` |
+| Проверка типов (без сборки) | `cd frontend && npm run typecheck` |
+| Production-сборка | `cd frontend && npm run build` |
+| Просмотр production-сборки | `cd frontend && npm run preview` |
+| Запустить бэкенд | `cd backend && node server.js` |
+| Автозапуск бэкенда | `cd backend && npx nodemon server.js` |
+| Сгенерировать секрет | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
 
-```bash
-cd frontend
-npx tsc
-```
+### Что происходит под капотом
 
-В режиме наблюдения (автосборка при сохранении):
+- `npm run dev` — Vite компилирует TS **в памяти**, не создаёт `.js` в `src/`.
+- `npm run typecheck` — прогоняет `tsc --noEmit`, проверяет типы, ничего не пишет на диск.
+- `npm run build` — сначала проверка типов, потом сборка в `frontend/dist/`.
+- `npm run preview` — локальный просмотр `dist/`.
 
-```bash
-npx tsc --watch
-```
+### Пути к ассетам — правило Vite
 
-Скомпилированные `.js` и `.js.map` появятся рядом с `.ts` в `frontend/src/`. Именно их грузит браузер через `<script type="module">`.
-
-### Пути к ассетам — важное правило
-
-Путь в HTML и в динамически создаваемом HTML (из `.ts`) считается **от HTML-страницы**, а не от `.ts`-файла.
-
-Так как все HTML лежат в корне `frontend/`, правильные пути:
+Всё, что лежит в `frontend/public/`, доступно с корня `/`. Префикс `public` **никогда** не пишется:
 
 ```html
-<!-- Стили -->
-<link rel="stylesheet" href="./src/styles/style.css" />
-<link rel="stylesheet" href="./src/auth/authh.css" />
+<!-- Правильно -->
+<img src="/images/logo.png" />
+<img src="/images/hero-bg.jpg" />
+<source src="/videos/4935202_House_Furniture_1280x720.mp4" type="video/mp4" />
 
-<!-- Картинки -->
+<!-- Неправильно -->
 <img src="./public/images/logo.png" />
-<img src="./public/images/hero-bg.jpg" />
-
-<!-- Видео -->
-<source src="./public/videos/4935202_House_Furniture_1280x720.mp4" type="video/mp4" />
-
-<!-- Скрипты -->
-<script type="module" src="./src/main.js"></script>
 ```
 
 В динамическом HTML внутри `.ts` — те же пути:
@@ -248,27 +245,45 @@ npx tsc --watch
 ```ts
 const html = `
   <div class="auth-modal__logo">
-    <img src="./public/images/logo.png" alt="Manomaestro" />
+    <img src="/images/logo.png" alt="Manomaestro" />
   </div>
 `;
 ```
 
-> Если позже перейдёшь на webpack с `copy-webpack-plugin`, пути поменяются на `/images/...`, `/videos/...` (без `public`). Правится в одном месте, если вынести префикс в константу:
-> ```ts
-> export const ASSETS = './public/images';
-> // ...
-> img.src = `${ASSETS}/logo.png`;
-> ```
+### Импорты в TypeScript
 
-### Отладка через source maps
+Vite сам разрешает `.ts` и `.css`, расширения писать не нужно:
 
-В `tsconfig.json` включён `"sourceMap": true`. В DevTools (вкладка **Sources**) ты увидишь оригинальные `.ts`-файлы, а не скомпилированный `.js`. Это сильно упрощает поиск ошибок.
+```ts
+// Правильно
+import './styles/style.css';
+import AuthService from './auth/AuthService';
+import './auth/authh.css';
 
-Файлы `.js.map` генерируются автоматически. Добавь их в `.gitignore`:
-
-```gitignore
-*.js.map
+// Неправильно (Vite не найдёт файл)
+import AuthService from './auth/AuthService.js';
 ```
+
+### Отладка
+
+В `vite.config.ts` включён `build.sourcemap: true`. В DevTools (вкладка **Sources**) видны оригинальные `.ts`-файлы, а не скомпилированный код.
+
+### Проксирование API (обход CORS)
+
+В `vite.config.ts` настроен прокси `/api` → `http://localhost:3001`. Это позволяет фронтенду обращаться к бэкенду **без CORS-ошибок** при разработке:
+
+```ts
+server: {
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3001',
+      changeOrigin: true,
+    },
+  },
+},
+```
+
+Если прокси не используется — обязательно добавь `http://localhost:5173` в `allowedOrigins` в `backend/server.js`.
 
 ---
 
@@ -308,7 +323,7 @@ const html = `
 - Редактирование профиля (имя, email, телефон)
 - Загрузка аватарки
 - Просмотр избранного
-- Смена пароля
+- **Смена пароля** (с проверкой текущего и инвалидацией старых токенов)
 - История заказов с фильтрами по статусу
 
 ---
@@ -327,6 +342,7 @@ const html = `
 - Параметризованные SQL-запросы (защита от инъекций)
 - Ограничение размера загружаемых файлов
 - Фильтр запрещённых слов в имени пользователя
+- **Инвалидация access-токенов при смене пароля** (`token_version`)
 
 ---
 
@@ -343,6 +359,7 @@ const html = `
 | GET | `/api/auth/me` | Данные текущего пользователя |
 | PUT | `/api/auth/profile` | Обновление профиля |
 | PUT | `/api/auth/avatar` | Обновление аватарки |
+| PUT | `/api/auth/password` | Смена пароля |
 
 ### Избранное
 
@@ -367,7 +384,7 @@ const html = `
 | `password` | TEXT | Хеш пароля |
 | `avatar` | TEXT | Base64 изображение |
 | `refresh_token` | TEXT | Текущий refresh-токен |
-| `token_version` | INTEGER | Версия токена |
+| `token_version` | INTEGER | Версия токена (инвалидация) |
 | `login_attempts` | INTEGER | Число неудачных попыток |
 | `locked_until` | DATETIME | Время разблокировки |
 | `created_at` | DATETIME | Дата создания |
@@ -399,11 +416,13 @@ netstat -ano | findstr :3001
 taskkill /PID <PID> /F
 ```
 
-Либо поменяй `PORT` в `backend/.env`.
+Либо поменяй `PORT` в `backend/.env`. Для Vite порт по умолчанию — `5173`; если занят, Vite сам предложит `5174`.
 
 ### CORS-ошибка
 
-Убедись, что фронтенд запущен на порту `8000`. Если другой — добавь его в массив `allowedOrigins` в `backend/server.js`.
+**Вариант 1 (рекомендуется):** настроить прокси в `vite.config.ts` — тогда CORS вообще не срабатывает, потому что фронт и бэк общаются через один origin.
+
+**Вариант 2:** убедиться, что `http://localhost:5173` есть в `allowedOrigins` в `backend/server.js`.
 
 ### База данных не создаётся
 
@@ -411,38 +430,52 @@ taskkill /PID <PID> /F
 
 ### Токен не работает после перезапуска сервера
 
-Проверь, что `.env` лежит в `backend/` рядом с `server.js`.
-
-### Открывается «Index of /» вместо сайта
-
-`serve` запущен не из той папки. Запусти его из `frontend/`, где лежит `index.html`:
-
-```bash
-cd frontend
-npx serve -p 8000
-```
+Проверь, что `.env` лежит в `backend/` рядом с `server.js` и что `JWT_SECRET` / `JWT_REFRESH_SECRET` заполнены.
 
 ### 404 на CSS, JS или картинки
 
-Открой DevTools → **Network** → обнови страницу. Найди красную строку, посмотри `Request URL`. Сравни с реальным расположением файла. Скорее всего, путь в HTML не совпадает с фактическим.
+Открой DevTools → **Network** → обнови страницу. Найди красную строку, посмотри `Request URL`. Сравни с реальным расположением файла.
 
-Помни правило: **путь считается от HTML-страницы**, а не от `.ts`-файла.
+**Правило Vite:** файлы из `public/` доступны как `/images/...`, `/videos/...` — **без** `public/`.
 
 ### Preloader не исчезает
 
-Проверь в DevTools → **Console**, нет ли ошибок. Если скрипт падает, обработчик события `load` не сработает, и preloader останется на экране.
+Открой DevTools → **Console**, проверь ошибки. Если JS падает при загрузке — preloader останется. Частая причина: путь к картинке с `./public/`, который Vite не находит.
 
 ### Логотип не отображается в модалке авторизации
 
-В `AuthModal.ts` путь должен быть `./public/images/logo.png`, а не `logo.png`. После правки — пересобрать: `npx tsc`.
+В `AuthModal.ts` путь должен быть `/images/logo.png` (без `public`). После правки перезапусти `npm run dev`.
 
-### `.js.map` появляются в git
+### Vite открывает `index.html`, а не `projects.html`
 
-Добавь в `frontend/.gitignore`:
+Проверь, что `projects.html` лежит **в корне `frontend/`** (рядом с `index.html`), а не в `src/` или `pages/`.
 
-```gitignore
-*.js.map
+Также убедись, что в `vite.config.ts` указан `rollupOptions.input` со всеми 4 HTML-файлами — иначе при `npm run build` соберётся только `index.html`.
+
+### `npm install` падает с `No matching version found`
+
+В `package.json` указана несуществующая версия зависимости. Проверь:
+
+```bash
+npm view vite version
 ```
+
+Замени версию на актуальную или установи через:
+
+```bash
+npm install -D vite@latest typescript@latest
+```
+
+### Сборка падает на `tsc --noEmit`
+
+Сначала проверь типы отдельно:
+
+```bash
+cd frontend
+npm run typecheck
+```
+
+Ошибка укажет файл и строку. После исправления `npm run build` пройдёт.
 
 ---
 
@@ -450,42 +483,103 @@ npx serve -p 8000
 
 | Задача | Команда |
 |--------|---------|
-| Собрать TS | `cd frontend && npx tsc` |
-| Автосборка TS | `cd frontend && npx tsc --watch` |
-| Запустить фронтенд | `cd frontend && npx serve -p 8000` |
+| Запустить фронтенд (dev) | `cd frontend && npm run dev` |
+| Проверка типов | `cd frontend && npm run typecheck` |
+| Production-сборка | `cd frontend && npm run build` |
+| Просмотр production-сборки | `cd frontend && npm run preview` |
 | Запустить бэкенд | `cd backend && node server.js` |
 | Автозапуск бэкенда | `cd backend && npx nodemon server.js` |
 | Сгенерировать секрет | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
-| Проверить версию TS | `npx tsc --version` |
+| Проверить версию TS | `cd frontend && npx tsc --version` |
 
 ---
 
 ## `.gitignore` (рекомендуемый)
 
 ```gitignore
-# Зависимости
+# =========================================================
+# ЗАВИСИМОСТИ
+# =========================================================
 node_modules/
+backend/node_modules/
+frontend/node_modules/
 
-# Сборка
+# =========================================================
+# СБОРКА И АРТЕФАКТЫ КОМПИЛЯЦИИ
+# =========================================================
 dist/
+build/
+frontend/dist/
+
+# Скомпилированные TS (на случай старой сборки)
 frontend/src/**/*.js
 frontend/src/**/*.js.map
+!frontend/src/**/*.d.ts
 
-# Секреты
-.env
+# Кэш Vite
+.vite/
+frontend/.vite/
 
-# База данных
+# Кэш TypeScript
+*.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# =========================================================
+# БАЗА ДАННЫХ
+# =========================================================
 backend/db/*.sqlite
+backend/db/*.sqlite3
 backend/db/*.sqlite-journal
+*.sqlite
+*.sqlite3
+*.db
 
-# ОС и редакторы
+# =========================================================
+# ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ (СЕКРЕТЫ!)
+# =========================================================
+.env
+.env.*
+backend/.env
+backend/.env.*
+!.env.example
+
+# =========================================================
+# ЛОГИ
+# =========================================================
+*.log
+logs/
+
+# =========================================================
+# СИСТЕМНЫЕ ФАЙЛЫ И РЕДАКТОРЫ
+# =========================================================
 .DS_Store
 Thumbs.db
-.vscode/
+desktop.ini
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
+*.swp
+*.swo
+*~
+
+# =========================================================
+# ВРЕМЕННЫЕ ФАЙЛЫ
+# =========================================================
+.cache/
+.temp/
+.tmp/
+*.bak
+
+# =========================================================
+# ТЕСТЫ И ПОКРЫТИЕ
+# =========================================================
+coverage/
+.nyc_output/
 ```
 
-> **Внимание:** если ты коммитишь скомпилированные `.js` (например, для GitHub Pages), убери строки `frontend/src/**/*.js` и `*.js.map` из `.gitignore`.
+> **`package-lock.json` НЕ игнорируется** — его нужно коммитить, чтобы у всех вставали одинаковые версии зависимостей.
 
 ---
 
