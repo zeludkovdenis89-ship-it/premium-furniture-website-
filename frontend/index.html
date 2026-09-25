@@ -10,7 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 
-    <!-- СТИЛИ -->
+    <!--
+      CSS можно оставить как есть — Vite их подхватит.
+      Пути относительные от HTML, поэтому ./src/styles/style.css работает.
+    -->
     <link rel="stylesheet" href="./src/styles/style.css" />
     <link rel="stylesheet" href="./src/auth/authh.css" />
 </head>
@@ -20,7 +23,7 @@
     <div class="preloader" id="preloader">
         <div class="preloader__content">
             <img
-                src="./public/images/logo.png"
+                src="/images/logo.png"
                 alt="Manomaestro"
                 class="preloader__logo"
                 id="preloaderLogo"
@@ -35,7 +38,7 @@
         <header class="header" id="header">
             <div class="container header__container">
                 <a href="index.html" class="logo">
-                    <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
+                    <img src="/images/logo.png" alt="Manomaestro" class="logo__image" width="220" height="auto" />
                 </a>
 
                 <nav class="header__nav" aria-label="Главное меню">
@@ -84,7 +87,7 @@
                         </li>
 
                         <li><a href="catalog.html" class="nav__link">Каталог</a></li>
-                        <li><a href="projects.html" class="nav__link">Проекты</a></li>
+                        <li><a href="project.html" class="nav__link">Проекты</a></li>
                         <li><a href="#blog" class="nav__link">Блог</a></li>
                         <li><a href="#reviews" class="nav__link">Отзывы</a></li>
                         <li><a href="#contacts" class="nav__link">Контакты</a></li>
@@ -128,7 +131,7 @@
                             </button>
                         </li>
                         <li><a href="catalog.html" class="mobile-menu__link">Каталог</a></li>
-                        <li><a href="projects.html" class="mobile-menu__link">Проекты</a></li>
+                        <li><a href="project.html" class="mobile-menu__link">Проекты</a></li>
                         <li><a href="#blog" class="mobile-menu__link">Блог</a></li>
                         <li><a href="#reviews" class="mobile-menu__link">Отзывы</a></li>
                         <li><a href="#contacts" class="mobile-menu__link">Контакты</a></li>
@@ -136,7 +139,7 @@
                 </nav>
 
                 <div class="mobile-menu__footer">
-                    <img src="./public/images/logo.png" alt="Manomaestro" class="mobile-menu__logo" />
+                    <img src="/images/logo.png" alt="Manomaestro" class="mobile-menu__logo" />
                     <p class="mobile-menu__address">г. Москва, Ленинградский пр-кт. д.80 корп.21</p>
                     <p class="mobile-menu__metro">🚇 Сокол — 550 м / Аэропорт — 1,7 км</p>
                     <a href="tel:+74952780285" class="mobile-menu__phone">+7 (495) 278-02-85</a>
@@ -176,7 +179,7 @@
 
             <!-- ГЕРОЙ -->
             <section class="hero">
-                <img src="./public/images/hero-bg.jpg" alt="Интерьер с мебелью Manomaestro" class="hero__image" fetchpriority="high" />
+                <img src="/images/hero-bg.jpg" alt="Интерьер с мебелью Manomaestro" class="hero__image" fetchpriority="high" />
                 <div class="hero__overlay"></div>
 
                 <div class="container hero__container">
@@ -249,7 +252,7 @@
                 <div class="footer__top">
                     <div class="footer__brand">
                         <a href="index.html" class="logo logo--footer">
-                            <img src="./public/images/logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
+                            <img src="/images/logo.png" alt="Manomaestro" class="logo__image" width="200" height="auto" />
                         </a>
                         <p class="footer__desc">Премиальная мебель ручной работы для избранных.</p>
                     </div>
@@ -268,8 +271,8 @@
 
     </div>
 
-    <!-- СКРИПТЫ -->
-    <script type="module" src="./src/main.js"></script>
-    <script type="module" src="./src/burger.js"></script>
+    <!-- СКРИПТЫ — оставляем как было, только пути под Vite -->
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/burger.ts"></script>
 </body>
 </html>

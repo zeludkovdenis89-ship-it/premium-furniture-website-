@@ -2,7 +2,8 @@
 // AUTH MODAL — МОДАЛЬНОЕ ОКНО ВХОДА/РЕГИСТРАЦИИ
 // =========================================================
 
-import AuthService, { User } from './AuthService.js';
+// Vite: расширение .js в импортах TS-файлов не нужно
+import AuthService, { User } from './AuthService';
 
 type AuthMode = 'login' | 'register';
 
@@ -50,7 +51,6 @@ class AuthModal {
 
     constructor(callbacks?: AuthCallbacks) {
         this.callbacks = callbacks || {};
-        console.log('🔐 AuthModal: конструктор вызван');
         this.createModal();
     }
 
@@ -59,16 +59,10 @@ class AuthModal {
         return BAD_WORDS.some(word => lowerText.includes(word));
     }
 
-    /**
-     * Очистка номера телефона от всех символов, кроме цифр
-     */
     private cleanPhone(phone: string): string {
         return phone.replace(/\D/g, '');
     }
 
-    /**
-     * Форматирование телефона в читаемый вид (для отображения)
-     */
     private formatPhoneForDisplay(phone: string): string {
         const cleaned = this.cleanPhone(phone);
         if (cleaned.length === 11 && cleaned.startsWith('7')) {
@@ -77,17 +71,11 @@ class AuthModal {
         return phone;
     }
 
-    /**
-     * Валидация номера телефона
-     */
     private isValidPhone(phone: string): boolean {
         const cleaned = this.cleanPhone(phone);
         return cleaned.length === 11 && cleaned.startsWith('7');
     }
 
-    /**
-     * Показать/скрыть кнопку "Отправить код" в зависимости от телефона
-     */
     private toggleSendCodeButton(phone: string): void {
         const sendCodeBtn = this.sendCodeBtn;
         if (!sendCodeBtn) return;
@@ -109,13 +97,9 @@ class AuthModal {
         }
     }
 
-    /**
-     * Применение маски для телефона при вводе
-     */
     private applyPhoneMask(input: HTMLInputElement): void {
         let value = input.value.replace(/\D/g, '');
-        
-        // Ограничиваем 11 цифрами
+
         if (value.length > 11) {
             value = value.slice(0, 11);
         }
@@ -138,11 +122,7 @@ class AuthModal {
         }
 
         input.value = formatted;
-        
-        // Проверяем валидность и обновляем кнопку
         this.toggleSendCodeButton(input.value);
-        
-        // Убираем ошибку при вводе
         this.clearFieldError(input);
     }
 
@@ -165,20 +145,20 @@ class AuthModal {
                         <span></span>
                         <span></span>
                     </button>
-                    
+
                     <div class="auth-modal__body">
                         <div class="auth-modal__logo">
-                          <img src="./public/images/logo.png" alt="Manomaestro" height="40" />
+                          <img src="/images/logo.png" alt="Manomaestro" height="40" />
                         </div>
-                        
+
                         <h2 class="auth-modal__title" id="authModalTitle">Вход в кабинет</h2>
                         <p class="auth-modal__subtitle" id="authModalSubtitle">Войдите, чтобы управлять заказами и избранным</p>
-                        
+
                         <div class="auth-modal__tabs">
                             <button class="auth-modal__tab auth-modal__tab--active" data-tab="login">Вход</button>
                             <button class="auth-modal__tab" data-tab="register">Регистрация</button>
                         </div>
-                        
+
                         <!-- ===== ФОРМА ВХОДА ===== -->
                         <form class="auth-modal__form auth-modal__form--active" id="authFormLogin" autocomplete="off" novalidate>
                             <div class="auth-modal__field">
@@ -186,25 +166,25 @@ class AuthModal {
                                 <input type="text" id="authLogin" placeholder="test@test.com или +7 999 999 99-99" />
                                 <span class="auth-modal__error" id="authLoginError"></span>
                             </div>
-                            
+
                             <div class="auth-modal__field">
                                 <label for="authPassword">Пароль</label>
                                 <input type="password" id="authPassword" placeholder="••••••••" />
                                 <span class="auth-modal__error" id="authPasswordError"></span>
                             </div>
-                            
+
                             <div class="auth-modal__field auth-modal__field--checkbox">
                                 <input type="checkbox" id="authRemember" />
                                 <label for="authRemember">Запомнить меня</label>
                             </div>
-                            
+
                             <button type="submit" class="auth-modal__submit" id="authSubmit">Войти</button>
-                            
+
                             <div class="auth-modal__switch">
                                 Нет аккаунта? <a id="authSwitchToRegister">Зарегистрироваться</a>
                             </div>
                         </form>
-                        
+
                         <!-- ===== ФОРМА РЕГИСТРАЦИИ ===== -->
                         <form class="auth-modal__form" id="authFormRegister" autocomplete="off" novalidate>
                             <div class="auth-modal__field">
@@ -212,43 +192,40 @@ class AuthModal {
                                 <input type="text" id="authRegName" placeholder="Александр" />
                                 <span class="auth-modal__error" id="authRegNameError"></span>
                             </div>
-                            
+
                             <div class="auth-modal__field">
                                 <label for="authRegPhone">Номер телефона</label>
                                 <input type="tel" id="authRegPhone" placeholder="+7 999 999 99-99" maxlength="18" />
                                 <span class="auth-modal__error" id="authRegPhoneError"></span>
                             </div>
-                            
-                            <!-- ===== КНОПКА ОТПРАВКИ КОДА ===== -->
+
                             <div class="auth-modal__field auth-modal__field--code">
                                 <button type="button" class="auth-modal__code-btn" id="authSendCode">
                                     Отправить код
                                 </button>
                             </div>
-                            
-                            <!-- ===== ПОЛЕ ДЛЯ КОДА ===== -->
+
                             <div class="auth-modal__field" id="authCodeField" style="display: none;">
                                 <label for="authRegCode">Код подтверждения из SMS</label>
                                 <input type="text" id="authRegCode" placeholder="— — — — — —" maxlength="6" />
                                 <span class="auth-modal__error" id="authRegCodeError"></span>
                             </div>
-                            
+
                             <div class="auth-modal__field">
                                 <label for="authRegPassword">Придумайте пароль</label>
                                 <input type="password" id="authRegPassword" placeholder="Минимум 6 символов" />
                                 <span class="auth-modal__error" id="authRegPasswordError"></span>
                             </div>
-                            
-                            <!-- ===== ЧЕКБОКС СО ССЫЛКОЙ ===== -->
+
                             <div class="auth-modal__field auth-modal__field--checkbox">
                                 <input type="checkbox" id="authRegAgree" />
                                 <label for="authRegAgree">
                                     Я согласен с <a href="#" target="_blank">политикой конфиденциальности</a>
                                 </label>
                             </div>
-                            
+
                             <button type="submit" class="auth-modal__submit" id="authRegSubmit">Создать аккаунт</button>
-                            
+
                             <div class="auth-modal__switch">
                                 Уже есть аккаунт? <a id="authSwitchToLogin">Войти</a>
                             </div>
@@ -278,12 +255,9 @@ class AuthModal {
         this.codeHint = document.getElementById('authCodeHint');
 
         this.bindEvents();
-        console.log('✅ AuthModal: HTML создан');
     }
 
     private bindEvents(): void {
-        console.log('🔗 AuthModal: привязка событий');
-
         this.switchToRegister?.addEventListener('click', (e) => {
             e.preventDefault();
             this.switchMode('register');
@@ -313,26 +287,21 @@ class AuthModal {
             this.handleRegister(e);
         });
 
-        // ===== СЛУШАТЕЛЬ ДЛЯ ПОЛЯ ТЕЛЕФОНА С МАСКОЙ =====
         const phoneInput = document.getElementById('authRegPhone') as HTMLInputElement;
         if (phoneInput) {
             phoneInput.addEventListener('input', () => {
                 this.applyPhoneMask(phoneInput);
             });
-            // Инициализация
             this.toggleSendCodeButton(phoneInput.value);
         }
 
-        // Кнопка отправки кода
         this.sendCodeBtn?.addEventListener('click', () => {
-            console.log('🖱️ Кнопка "Отправить код" нажата');
             this.sendVerificationCode();
         });
 
         this.codeInput?.addEventListener('input', () => {
             if (this.codeInput && this.codeInput.value.length === 6) {
                 this.codeInput.style.borderColor = '#27AE60';
-                // Автоматически убираем ошибку
                 const field = this.codeInput.closest('.auth-modal__field');
                 if (field) {
                     field.classList.remove('auth-modal__field--error');
@@ -343,8 +312,6 @@ class AuthModal {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isOpen) this.close();
         });
-
-        console.log('✅ AuthModal: события привязаны');
     }
 
     private switchMode(mode: AuthMode): void {
@@ -374,21 +341,13 @@ class AuthModal {
         }
     }
 
-    /**
-     * ОТПРАВКА КОДА НА ТЕЛЕФОН
-     */
     private async sendVerificationCode(): Promise<void> {
         if (this.codeTimer !== null) {
-            console.log('⏳ Таймер активен, повторная отправка запрещена');
             return;
         }
 
-        console.log('📤 sendVerificationCode вызван');
-        
         const phoneInput = document.getElementById('authRegPhone') as HTMLInputElement;
         const phone = phoneInput?.value || '';
-
-        console.log('📱 Телефон:', phone);
 
         this.clearErrors();
 
@@ -403,23 +362,19 @@ class AuthModal {
                 this.sendCodeBtn.textContent = 'Отправка...';
             }
 
-            // Отправляем код через сервис
             await AuthService.sendVerificationCode(phone);
 
-            // Показываем поле для кода
             if (this.codeField) {
                 this.codeField.style.display = 'block';
                 this.codeField.style.animation = 'authCodeAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-                console.log('✅ Поле для кода показано');
             }
-            
+
             if (this.codeInput) {
                 this.codeInput.value = '';
                 this.codeInput.focus();
                 this.codeInput.style.borderColor = '';
-                console.log('✅ Фокус на поле кода');
             }
-            
+
             if (this.codeHint) {
                 const formattedPhone = this.formatPhoneForDisplay(phone);
                 this.codeHint.textContent = 'Код отправлен на ' + formattedPhone + '. Введите его ниже';
@@ -427,14 +382,13 @@ class AuthModal {
             }
 
             this.isCodeSent = true;
-            
+
             if (this.sendCodeBtn) {
                 this.sendCodeBtn.classList.remove('auth-modal__code-btn--visible');
                 this.sendCodeBtn.textContent = 'Отправить код';
             }
 
             this.startCodeTimer();
-            console.log('📱 Код отправлен на', phone);
 
         } catch (error) {
             if (this.sendCodeBtn) {
@@ -447,28 +401,22 @@ class AuthModal {
         }
     }
 
-    /**
-     * ЗАПУСК ТАЙМЕРА ДЛЯ ПОВТОРНОЙ ОТПРАВКИ КОДА
-     */
     private startCodeTimer(): void {
         this.codeSeconds = 30;
-        
+
         if (this.codeTimer) clearInterval(this.codeTimer);
 
         this.codeTimer = window.setInterval(() => {
             this.codeSeconds--;
-            
+
             if (this.sendCodeBtn) {
                 if (this.codeSeconds <= 0) {
-                    // ✅ КОГДА ТАЙМЕР ЗАКАНЧИВАЕТСЯ — АКТИВИРУЕМ КНОПКУ
                     this.sendCodeBtn.disabled = false;
                     this.sendCodeBtn.textContent = 'Отправить код';
                     this.sendCodeBtn.classList.add('auth-modal__code-btn--visible');
-                    
-                    // ✅ Сбрасываем флаг отправки для повторной отправки
+
                     this.isCodeSent = false;
-                    
-                    // ✅ Скрываем поле для кода
+
                     if (this.codeField) {
                         this.codeField.style.display = 'none';
                         this.codeField.style.animation = '';
@@ -476,12 +424,12 @@ class AuthModal {
                     if (this.codeInput) {
                         this.codeInput.value = '';
                     }
-                    
+
                     const phoneInput = document.getElementById('authRegPhone') as HTMLInputElement;
                     if (phoneInput) {
                         this.toggleSendCodeButton(phoneInput.value);
                     }
-                    
+
                     clearInterval(this.codeTimer!);
                     this.codeTimer = null;
                 } else {
@@ -496,7 +444,7 @@ class AuthModal {
             clearInterval(this.codeTimer);
             this.codeTimer = null;
         }
-        
+
         if (this.codeField) {
             this.codeField.style.display = 'none';
             this.codeField.style.animation = '';
@@ -511,7 +459,7 @@ class AuthModal {
             this.codeHint.className = 'auth-modal__hint';
         }
         this.isCodeSent = false;
-        
+
         const phoneInput = document.getElementById('authRegPhone') as HTMLInputElement;
         if (phoneInput) {
             this.toggleSendCodeButton(phoneInput.value);
@@ -520,7 +468,6 @@ class AuthModal {
 
     private async handleLogin(e: Event): Promise<void> {
         e.preventDefault();
-        console.log('🔑 AuthModal: попытка входа');
 
         const login = (document.getElementById('authLogin') as HTMLInputElement)?.value || '';
         const password = (document.getElementById('authPassword') as HTMLInputElement)?.value || '';
@@ -567,7 +514,6 @@ class AuthModal {
 
     private async handleRegister(e: Event): Promise<void> {
         e.preventDefault();
-        console.log('📝 AuthModal: попытка регистрации');
 
         const name = (document.getElementById('authRegName') as HTMLInputElement)?.value || '';
         const phone = (document.getElementById('authRegPhone') as HTMLInputElement)?.value || '';
@@ -579,7 +525,6 @@ class AuthModal {
 
         let hasError = false;
 
-        // Проверка имени
         if (!name || name.length < 2) {
             this.showError('authRegNameError', 'Введите имя (минимум 2 символа)');
             hasError = true;
@@ -588,37 +533,31 @@ class AuthModal {
             hasError = true;
         }
 
-        // Проверка телефона
         if (!this.isValidPhone(phone)) {
             this.showError('authRegPhoneError', 'Введите корректный номер телефона (например: +7 999 999 99-99)');
             hasError = true;
         }
 
-        // Проверка пароля
         if (!password || password.length < 6) {
             this.showError('authRegPasswordError', 'Пароль должен содержать минимум 6 символов');
             hasError = true;
         }
 
-        // Проверка согласия
         if (!agree) {
             this.showError('authRegNameError', 'Необходимо согласие с политикой конфиденциальности');
             hasError = true;
         }
 
-        // ✅ ПРОВЕРКА КОДА
         if (this.isCodeSent) {
             if (!code || code.length < 6) {
                 this.showError('authRegCodeError', 'Введите 6-значный код из SMS');
                 hasError = true;
             }
         } else {
-            // Если код не отправлен, но поле видимо — ошибка
             if (this.codeField && this.codeField.style.display !== 'none') {
                 this.showError('authRegCodeError', 'Сначала отправьте код на телефон');
                 hasError = true;
             }
-            // Если код вообще не отправлен — напоминаем
             if (!this.isCodeSent) {
                 this.showError('authRegPhoneError', 'Сначала отправьте код на телефон');
                 hasError = true;
@@ -647,24 +586,22 @@ class AuthModal {
         } catch (error) {
             this.setLoading(false);
             const errorMessage = error instanceof Error ? error.message : 'Ошибка регистрации';
-            
-            // ✅ ПРАВИЛЬНОЕ РАСПРЕДЕЛЕНИЕ ОШИБОК ПО ПОЛЯМ
-            if (errorMessage.toLowerCase().includes('код') || 
+
+            if (errorMessage.toLowerCase().includes('код') ||
                 errorMessage.toLowerCase().includes('code') ||
                 errorMessage.toLowerCase().includes('неверный') ||
                 errorMessage.toLowerCase().includes('sms')) {
                 this.showError('authRegCodeError', errorMessage);
-            } else if (errorMessage.toLowerCase().includes('телефон') || 
+            } else if (errorMessage.toLowerCase().includes('телефон') ||
                        errorMessage.toLowerCase().includes('phone')) {
                 this.showError('authRegPhoneError', errorMessage);
-            } else if (errorMessage.toLowerCase().includes('пароль') || 
+            } else if (errorMessage.toLowerCase().includes('пароль') ||
                        errorMessage.toLowerCase().includes('password')) {
                 this.showError('authRegPasswordError', errorMessage);
-            } else if (errorMessage.toLowerCase().includes('имя') || 
+            } else if (errorMessage.toLowerCase().includes('имя') ||
                        errorMessage.toLowerCase().includes('name')) {
                 this.showError('authRegNameError', errorMessage);
             } else {
-                // По умолчанию — в поле имени
                 this.showError('authRegNameError', errorMessage);
             }
         }
@@ -677,7 +614,6 @@ class AuthModal {
             const field = errorEl.closest('.auth-modal__field');
             if (field) {
                 field.classList.add('auth-modal__field--error');
-                // Подсвечиваем поле красным
                 const input = field.querySelector('input');
                 if (input) {
                     input.style.borderColor = '#E74C3C';
@@ -749,13 +685,9 @@ class AuthModal {
     // СТАТИЧЕСКИЕ МЕТОДЫ ДЛЯ МЕНЮ ПОЛЬЗОВАТЕЛЯ
     // =========================================================
 
-    /**
-     * Обновление кнопки в header
-     */
     static updateHeaderButton(): void {
         const authBtn = document.getElementById('authBtn');
         if (!authBtn) {
-            console.warn('⚠️ AuthModal: кнопка #authBtn не найдена');
             return;
         }
 
@@ -769,13 +701,11 @@ class AuthModal {
                     <path d="M6 9l6 6 6-6"/>
                 </svg>
             `;
-            
+
             authBtn.onclick = (e: MouseEvent) => {
                 e.stopPropagation();
                 AuthModal.toggleUserMenu();
             };
-            
-            console.log('👤 AuthModal: кнопка обновлена (пользователь)', user.name);
         } else {
             authBtn.innerHTML = `
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -791,9 +721,6 @@ class AuthModal {
         }
     }
 
-    /**
-     * Показать/скрыть меню пользователя
-     */
     static toggleUserMenu(): void {
         if (AuthModal.userMenu && AuthModal.userMenu.style.display !== 'none') {
             AuthModal.closeUserMenu();
@@ -802,9 +729,6 @@ class AuthModal {
         }
     }
 
-    /**
-     * Открыть меню пользователя
-     */
     static openUserMenu(): void {
         AuthModal.closeUserMenu();
 
@@ -867,7 +791,6 @@ class AuthModal {
         cabinetBtn?.addEventListener('click', (e: MouseEvent) => {
             e.preventDefault();
             AuthModal.closeUserMenu();
-            console.log('📂 Переход в личный кабинет');
             window.location.href = 'cabinet.html';
         });
 
@@ -881,9 +804,6 @@ class AuthModal {
         });
     }
 
-    /**
-     * Закрыть меню пользователя
-     */
     static closeUserMenu(): void {
         if (AuthModal.userMenu) {
             AuthModal.userMenu.classList.remove('auth-user-menu--visible');
@@ -898,22 +818,16 @@ class AuthModal {
         document.removeEventListener('keydown', AuthModal.handleEscKey);
     }
 
-    /**
-     * Обработчик клика вне меню
-     */
     private static handleOutsideClick = (e: MouseEvent): void => {
         const target = e.target as HTMLElement;
         const authBtn = document.getElementById('authBtn');
         const menu = document.getElementById('authUserMenu');
-        
+
         if (menu && !menu.contains(target) && authBtn && !authBtn.contains(target)) {
             AuthModal.closeUserMenu();
         }
     };
 
-    /**
-     * Обработчик клавиши Escape
-     */
     private static handleEscKey = (e: KeyboardEvent): void => {
         if (e.key === 'Escape') {
             AuthModal.closeUserMenu();
@@ -942,11 +856,11 @@ class AuthModal {
 
     close(): void {
         if (!this.overlay) return;
-        
+
         this.isOpen = false;
         this.overlay.classList.remove('auth-modal-overlay--active');
         document.body.classList.remove('no-scroll');
-        
+
         setTimeout(() => {
             this.clearErrors();
             this.resetCodeState();
@@ -967,7 +881,6 @@ class AuthModal {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 AuthModal: DOM загружен');
     AuthModal.updateHeaderButton();
 });
 

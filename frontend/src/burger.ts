@@ -1,4 +1,10 @@
 // =========================================================
+// СТИЛИ (импортируются через Vite)
+// =========================================================
+import './styles/style.css';
+import './auth/authh.css';
+
+// =========================================================
 // ТИПЫ И ИНТЕРФЕЙСЫ
 // =========================================================
 
@@ -13,11 +19,11 @@ interface CounterElement extends HTMLElement {
 // =========================================================
 // 0. ПРЕЛОАДЕР + ПОЯВЛЕНИЕ САЙТА
 // =========================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const preloader = document.getElementById('preloader') as HTMLElement | null;
-    const preloaderLogo = document.getElementById('preloaderLogo') as HTMLElement | null;
+document.addEventListener('DOMContentLoaded', function () {
+    const preloader = document.getElementById('preloader');
+    const preloaderLogo = document.getElementById('preloaderLogo');
     const preloaderLine = document.querySelector('.preloader__line') as HTMLElement | null;
-    const siteWrapper = document.getElementById('siteWrapper') as HTMLElement | null;
+    const siteWrapper = document.getElementById('siteWrapper');
 
     setTimeout(() => {
         if (preloaderLogo) {
@@ -204,19 +210,19 @@ document.addEventListener('DOMContentLoaded', function() {
 // =========================================================
 // 1. БУРГЕР-МЕНЮ + МОБИЛЬНАЯ ШТОРКА
 // =========================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const burger = document.getElementById('burger') as HTMLElement | null;
-    const mobileMenu = document.getElementById('mobileMenu') as HTMLElement | null;
-    const mobileMenuClose = document.getElementById('mobileMenuClose') as HTMLElement | null;
+document.addEventListener('DOMContentLoaded', function () {
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
     const menuLinks = document.querySelectorAll<HTMLElement>('.mobile-menu__link:not(.mobile-menu__link--dropdown)');
     const body = document.body;
 
     // =========================================================
-    // 2. МОДАЛЬНОЕ ОКНО ДЛЯ УСЛУГ (ВНУТРИ ТОГО ЖЕ DOMContentLoaded!)
+    // 2. МОДАЛЬНОЕ ОКНО ДЛЯ УСЛУГ
     // =========================================================
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle') as HTMLElement | null;
-    const servicesModal = document.getElementById('servicesModal') as HTMLElement | null;
-    const modalClose = document.getElementById('modalClose') as HTMLElement | null;
+    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+    const servicesModal = document.getElementById('servicesModal');
+    const modalClose = document.getElementById('modalClose');
 
     function openModal(): void {
         if (!servicesModal) return;
@@ -230,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         body.classList.remove('no-scroll');
     }
 
-    // === БУРГЕР (с проверками) ===
+    // === БУРГЕР ===
     function openMobileMenu(): void {
         if (!burger || !mobileMenu) return;
         burger.classList.add('burger--active');
@@ -247,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // === СОБЫТИЯ БУРГЕРА ===
     if (burger && mobileMenu) {
-        burger.addEventListener('click', function(e: MouseEvent) {
+        burger.addEventListener('click', function (e: MouseEvent) {
             e.stopPropagation();
             if (mobileMenu.classList.contains('mobile-menu--active')) {
                 closeMobileMenu();
@@ -256,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        document.addEventListener('click', function(e: MouseEvent) {
+        document.addEventListener('click', function (e: MouseEvent) {
             const target = e.target as HTMLElement;
             if (mobileMenu.classList.contains('mobile-menu--active')) {
                 if (!mobileMenu.contains(target) && !burger.contains(target)) {
@@ -265,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        document.addEventListener('keydown', function(e: KeyboardEvent) {
+        document.addEventListener('keydown', function (e: KeyboardEvent) {
             if (e.key === 'Escape' && mobileMenu.classList.contains('mobile-menu--active')) {
                 closeMobileMenu();
             }
@@ -284,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // === СОБЫТИЯ МОДАЛКИ ===
     if (mobileServicesToggle) {
-        mobileServicesToggle.addEventListener('click', function(e: Event) {
+        mobileServicesToggle.addEventListener('click', function (e: Event) {
             e.preventDefault();
             openModal();
         });
@@ -295,23 +301,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (servicesModal) {
-        servicesModal.addEventListener('click', function(e: MouseEvent) {
+        servicesModal.addEventListener('click', function (e: MouseEvent) {
             if (e.target === servicesModal) {
                 closeModal();
             }
         });
 
-        document.addEventListener('keydown', function(e: KeyboardEvent) {
+        document.addEventListener('keydown', function (e: KeyboardEvent) {
             if (e.key === 'Escape' && servicesModal.classList.contains('modal-overlay--active')) {
                 closeModal();
             }
         });
     }
 
-    // === ПРИ ИЗМЕНЕНИИ ШИРИНЫ ОКНА (С ПРОВЕРКАМИ!) ===
-    window.addEventListener('resize', function() {
+    // === ПРИ ИЗМЕНЕНИИ ШИРИНЫ ОКНА ===
+    window.addEventListener('resize', function () {
         if (window.innerWidth > 1200) {
-            // ✅ Проверяем, что элементы существуют
             if (mobileMenu && mobileMenu.classList.contains('mobile-menu--active')) {
                 closeMobileMenu();
             }
@@ -325,10 +330,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // =========================================================
 // 4. ШАПКА ПРИ СКРОЛЛЕ
 // =========================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const header = document.getElementById('header') as HTMLElement | null;
+document.addEventListener('DOMContentLoaded', function () {
+    const header = document.getElementById('header');
     if (header) {
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.pageYOffset > 80) {
                 header.classList.add('header--scrolled');
             } else {
@@ -339,12 +344,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =========================================================
-// 5. СЧЁТЧИК "15 ЛЕТ" (С ЗАДЕРЖКОЙ ДЛЯ ПОЯВЛЕНИЯ)
+// 5. СЧЁТЧИК "15 ЛЕТ"
 // =========================================================
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
         const counters = document.querySelectorAll<CounterElement>('.fact-card__number');
-        
+
         counters.forEach((counter) => {
             const text = counter.textContent?.trim() || '';
             const match = text.match(/\d+/);
@@ -380,13 +385,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function animateCounter(element: CounterElement): void {
     const target = parseInt(element.dataset.target || '0');
     if (!target || target === 0) return;
-    
+
     const suffix = element.dataset.suffix || '';
     let current = 0;
     const duration = 1500;
     const step = Math.max(1, Math.floor(target / 30));
     const interval = duration / (target / step);
-    
+
     const timer = setInterval(() => {
         current += step;
         if (current >= target) {
@@ -400,12 +405,12 @@ function animateCounter(element: CounterElement): void {
 // =========================================================
 // 6. ДРОПДАУН УСЛУГ (КЛИК НА МОБИЛКЕ)
 // =========================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const servicesToggle = document.getElementById('servicesToggle') as HTMLElement | null;
-    const servicesDropdown = document.getElementById('servicesDropdown') as HTMLElement | null;
+document.addEventListener('DOMContentLoaded', function () {
+    const servicesToggle = document.getElementById('servicesToggle');
+    const servicesDropdown = document.getElementById('servicesDropdown');
 
     if (servicesToggle && servicesDropdown) {
-        servicesToggle.addEventListener('click', function(e: MouseEvent) {
+        servicesToggle.addEventListener('click', function (e: MouseEvent) {
             if (window.innerWidth <= 1200) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -416,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    document.addEventListener('click', function(e: MouseEvent) {
+    document.addEventListener('click', function (e: MouseEvent) {
         if (window.innerWidth <= 1200) {
             const target = e.target as HTMLElement;
             const dropdowns = document.querySelectorAll<HTMLElement>('.dropdown');

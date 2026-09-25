@@ -1,4 +1,19 @@
 // =========================================================
+// СТИЛИ (импортируются через Vite)
+// =========================================================
+import './styles/style.css';
+import './styles/project.css';
+import './auth/authh.css';
+
+// =========================================================
+// ОБЩАЯ ЛОГИКА САЙТА (шапка, бургер, модалки, прелоадер)
+// =========================================================
+// Импортируем main.ts, чтобы отработали общие обработчики.
+// Если main.ts содержит что-то специфичное для главной —
+// вынесите общее в header.ts и импортируйте его здесь.
+import './main';
+
+// =========================================================
 // ТИПЫ И ИНТЕРФЕЙСЫ
 // =========================================================
 
@@ -26,6 +41,13 @@ interface Project {
 }
 
 // =========================================================
+// ПУТИ К КАРТИНКАМ (Vite: public/ — это корень статики)
+// =========================================================
+// Все изображения лежат в frontend/public/images/,
+// поэтому в коде путь начинается с /images/, без public.
+const IMG = '/images';
+
+// =========================================================
 // ОСНОВНОЙ МОДУЛЬ
 // =========================================================
 
@@ -37,30 +59,19 @@ class ProjectsModule {
   private isReviewsOpening: boolean = false;
 
   constructor() {
-    console.log('✨ Проекты: конструктор вызван');
     this.init();
   }
 
   private init(): void {
-    console.log('✨ Проекты: скрипт загружен');
-    
     this.preloader = document.getElementById('projectsPreloader');
     this.siteWrapper = document.getElementById('siteWrapper');
     this.grid = document.getElementById('projectsGrid');
 
-    console.log('🔍 Прелоадер найден:', !!this.preloader);
-    console.log('🔍 Обёртка найдена:', !!this.siteWrapper);
-    console.log('🔍 Сетка найдена:', !!this.grid);
-
-    // Если DOM ещё не загружен — ждём
+    // Vite выполняет module-скрипты после парсинга DOM,
+    // поэтому readyState почти всегда 'interactive' или 'complete'.
     if (document.readyState === 'loading') {
-      console.log('⏳ DOM загружается, ждём...');
-      document.addEventListener('DOMContentLoaded', () => {
-        this.handleDOMContentLoaded();
-      });
+      document.addEventListener('DOMContentLoaded', () => this.handleDOMContentLoaded());
     } else {
-      // DOM уже загружен — запускаем сразу
-      console.log('✅ DOM уже загружен, запускаем...');
       this.handleDOMContentLoaded();
     }
   }
@@ -69,39 +80,28 @@ class ProjectsModule {
   // DOM CONTENT LOADED
   // =========================================================
   private handleDOMContentLoaded(): void {
-    console.log('📄 DOMContentLoaded сработал!');
-    
     // 1. ПРЕЛОАДЕР
     if (this.preloader) {
-      console.log('🔄 Прелоадер проектов: запущен');
-      
       setTimeout(() => {
-        console.log('✅ Прелоадер проектов: скрываем');
         this.preloader!.classList.add('projects-preloader--hidden');
-        
+
         setTimeout(() => {
           if (this.preloader) {
             this.preloader.style.display = 'none';
-            console.log('💀 Прелоадер полностью скрыт');
           }
-          
-          // Активация анимаций
+
           if (this.siteWrapper) {
             this.siteWrapper.classList.add('site-wrapper--visible');
           }
-          
+
           this.animateHeader();
           this.animateProjectsHero();
           this.animateStats();
           this.animateGridHeader();
           this.animateCarouselControls();
           this.animateProjectCards();
-          
         }, 500);
-        
       }, 1200);
-    } else {
-      console.warn('⚠️ Прелоадер НЕ НАЙДЕН! Проверь id="projectsPreloader"');
     }
 
     // 2. ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ FOOTER
@@ -138,8 +138,6 @@ class ProjectsModule {
   // АНИМАЦИИ
   // =========================================================
   private animateHeader(): void {
-    console.log('🎯 Анимация header проектов: запущена');
-    
     const logo = document.querySelector('.logo') as HTMLElement;
     if (logo) {
       logo.style.opacity = '0';
@@ -199,8 +197,6 @@ class ProjectsModule {
         dropdownArrow.style.transform = 'translateY(0)';
       }, 300 + (navLinks.length * 80));
     }
-
-    console.log(`✅ Header проектов: анимировано ${navLinks.length + 3} элементов`);
   }
 
   private animateProjectsHero(): void {
@@ -209,9 +205,9 @@ class ProjectsModule {
       hero.style.transition = 'none';
       hero.style.opacity = '0';
       hero.style.transform = 'translateY(30px) scale(0.98)';
-      
+
       void hero.offsetHeight;
-      
+
       hero.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
       hero.style.opacity = '1';
       hero.style.transform = 'translateY(0) scale(1)';
@@ -224,25 +220,24 @@ class ProjectsModule {
       stats.style.transition = 'none';
       stats.style.opacity = '0';
       stats.style.transform = 'translateY(30px)';
-      
+
       void stats.offsetHeight;
-      
+
       stats.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
       stats.style.opacity = '1';
       stats.style.transform = 'translateY(0)';
     }
-    
-    // Счётчики
+
     const counters = document.querySelectorAll<HTMLElement>('.projects-stats__number');
     counters.forEach(counter => {
       const target = parseInt(counter.dataset.target || '0', 10);
       if (!target) return;
-      
+
       let current = 0;
       const duration = 2000;
       const step = Math.ceil(target / 40);
       const interval = Math.floor(duration / (target / step));
-      
+
       const timer = setInterval(() => {
         current += step;
         if (current >= target) {
@@ -260,9 +255,9 @@ class ProjectsModule {
       header.style.transition = 'none';
       header.style.opacity = '0';
       header.style.transform = 'translateY(20px)';
-      
+
       void header.offsetHeight;
-      
+
       header.style.transition = 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
       header.style.opacity = '1';
       header.style.transform = 'translateY(0)';
@@ -275,9 +270,9 @@ class ProjectsModule {
       controls.style.transition = 'none';
       controls.style.opacity = '0';
       controls.style.transform = 'translateY(15px)';
-      
+
       void controls.offsetHeight;
-      
+
       controls.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
       controls.style.opacity = '1';
       controls.style.transform = 'translateY(0)';
@@ -286,24 +281,22 @@ class ProjectsModule {
 
   private animateProjectCards(): void {
     const cards = document.querySelectorAll<HTMLElement>('.project-card');
-    
+
     cards.forEach((card, index) => {
       const delay = 0.08 * (index + 1);
-      
+
       card.style.transition = 'none';
       card.style.opacity = '0';
       card.style.transform = 'translateY(40px) scale(0.95)';
-      
+
       void card.offsetHeight;
-      
+
       setTimeout(() => {
         card.style.transition = 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
         card.style.opacity = '1';
         card.style.transform = 'translateY(0) scale(1)';
       }, delay * 1000);
     });
-    
-    console.log(`✨ ${cards.length} карточек анимировано`);
   }
 
   // =========================================================
@@ -313,7 +306,7 @@ class ProjectsModule {
     const fullStars = Math.floor(rating);
     const hasHalf = rating % 1 >= 0.5;
     let html = '';
-    
+
     for (let i = 0; i < fullStars; i++) {
       html += '<span class="star star--filled">★</span>';
     }
@@ -324,7 +317,7 @@ class ProjectsModule {
     for (let i = 0; i < emptyStars; i++) {
       html += '<span class="star star--empty">★</span>';
     }
-    
+
     return html;
   }
 
@@ -339,7 +332,6 @@ class ProjectsModule {
 
     const existingCards = this.grid.querySelectorAll('.project-card');
     if (existingCards.length > 0) {
-      console.log(`✅ В HTML уже есть ${existingCards.length} карточек`);
       setTimeout(() => {
         this.initGalleries();
         this.initCarousel();
@@ -349,238 +341,242 @@ class ProjectsModule {
       return;
     }
 
-    console.log('📦 Загружаем проекты из JS');
-
     const projects: Project[] = [
-  {
-    id: 1,
-    title: 'Классический особняк в Барвихе',
-    location: '📍 Барвиха, Московская область',
-    category: 'Интерьер',
-    images: [
-      './public/images/dizayn-i-remont-doma-v-kp-lesnaya-polyana-v-stile-sovremennyy-1-etazh-kukhnya-gostinaya-foto-20.png',
-      './public/images/zagorodniy.dom_03.png',
-      './public/images/images.png'
-    ],
-    description: 'Полная реконструкция интерьера с использованием мебели из массива дуба. Проект в стиле английской классики с элементами ар-деко.',
-    advantages: [
-      '🪑 Мебель из массива дуба',
-      '✨ Ручная резьба по дереву',
-      '🏛️ Английская классика',
-      '🎨 Ар-деко элементы'
-    ],
-    year: '2025',
-    area: '320 м²',
-    style: 'Классический',
-    rating: 4.9,
-    reviewsCount: 14,
-    reviews: [
       {
-        name: 'Екатерина В.',
-        date: '12 марта 2025',
-        rating: 5,
-        text: 'Потрясающая работа! Мебель выглядит ещё лучше, чем на эскизах. Мастера — настоящие художники.'
+        id: 1,
+        title: 'Классический особняк в Барвихе',
+        location: '📍 Барвиха, Московская область',
+        category: 'Интерьер',
+        images: [
+          `${IMG}/dizayn-i-remont-doma-v-kp-lesnaya-polyana-v-stile-sovremennyy-1-etazh-kukhnya-gostinaya-foto-20.png`,
+          `${IMG}/zagorodniy.dom_03.png`,
+          `${IMG}/images.png`,
+        ],
+        description:
+          'Полная реконструкция интерьера с использованием мебели из массива дуба. Проект в стиле английской классики с элементами ар-деко.',
+        advantages: [
+          '🪑 Мебель из массива дуба',
+          '✨ Ручная резьба по дереву',
+          '🏛️ Английская классика',
+          '🎨 Ар-деко элементы',
+        ],
+        year: '2025',
+        area: '320 м²',
+        style: 'Классический',
+        rating: 4.9,
+        reviewsCount: 14,
+        reviews: [
+          {
+            name: 'Екатерина В.',
+            date: '12 марта 2025',
+            rating: 5,
+            text: 'Потрясающая работа! Мебель выглядит ещё лучше, чем на эскизах. Мастера — настоящие художники.',
+          },
+          {
+            name: 'Михаил С.',
+            date: '28 февраля 2025',
+            rating: 5,
+            text: 'Долго выбирали исполнителя. Не ошиблись! Качество на высшем уровне, все сроки соблюдены.',
+          },
+          {
+            name: 'Анна К.',
+            date: '15 января 2025',
+            rating: 4,
+            text: 'Очень красиво, но немного затянули с доставкой. В остальном — идеально.',
+          },
+        ],
       },
       {
-        name: 'Михаил С.',
-        date: '28 февраля 2025',
-        rating: 5,
-        text: 'Долго выбирали исполнителя. Не ошиблись! Качество на высшем уровне, все сроки соблюдены.'
+        id: 2,
+        title: 'Современный лофт в центре Москвы',
+        location: '📍 Москва, Патриаршие пруды',
+        category: 'Интерьер',
+        images: [
+          `${IMG}/5290518.png`,
+          `${IMG}/stil-loft.png`,
+          `${IMG}/5000_5000_s174.png`,
+        ],
+        description:
+          'Минималистичный интерьер с акцентными элементами из ореха и натуральной кожи. Сочетание современных технологий и ручной работы.',
+        advantages: [
+          '🛋️ Мебель из ореха',
+          '🧵 Натуральная кожа',
+          '💡 Современные технологии',
+          '✨ Ручная работа',
+        ],
+        year: '2024',
+        area: '180 м²',
+        style: 'Лофт',
+        rating: 4.8,
+        reviewsCount: 9,
+        reviews: [
+          {
+            name: 'Дмитрий П.',
+            date: '20 февраля 2024',
+            rating: 5,
+            text: 'Идеальный проект для современного человека. Мебель смотрится дорого и стильно.',
+          },
+          {
+            name: 'Ольга Н.',
+            date: '5 января 2024',
+            rating: 5,
+            text: 'Спасибо команде Manomaestro за этот шедевр. Интерьер теперь дышит по-новому!',
+          },
+        ],
       },
       {
-        name: 'Анна К.',
-        date: '15 января 2025',
-        rating: 4,
-        text: 'Очень красиво, но немного затянули с доставкой. В остальном — идеально.'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Современный лофт в центре Москвы',
-    location: '📍 Москва, Патриаршие пруды',
-    category: 'Интерьер',
-    images: [
-      './public/images/5290518.png',
-      './public/images/stil-loft.png',
-      './public/images/5000_5000_s174.png'
-    ],
-    description: 'Минималистичный интерьер с акцентными элементами из ореха и натуральной кожи. Сочетание современных технологий и ручной работы.',
-    advantages: [
-      '🛋️ Мебель из ореха',
-      '🧵 Натуральная кожа',
-      '💡 Современные технологии',
-      '✨ Ручная работа'
-    ],
-    year: '2024',
-    area: '180 м²',
-    style: 'Лофт',
-    rating: 4.8,
-    reviewsCount: 9,
-    reviews: [
-      {
-        name: 'Дмитрий П.',
-        date: '20 февраля 2024',
-        rating: 5,
-        text: 'Идеальный проект для современного человека. Мебель смотрится дорого и стильно.'
+        id: 3,
+        title: 'Скандинавский дом в Серебряном Бору',
+        location: '📍 Серебряный Бор, Москва',
+        category: 'Архитектура + Интерьер',
+        images: [
+          `${IMG}/images1.png`,
+          `${IMG}/6777884416.png`,
+          `${IMG}/image2.png`,
+        ],
+        description:
+          'Проект дома в скандинавском стиле с панорамными окнами и мебелью из светлого ясеня. Единство с природой в каждой детали.',
+        advantages: [
+          '🌿 Мебель из ясеня',
+          '🪟 Панорамные окна',
+          '❄️ Скандинавский стиль',
+          '🌳 Единство с природой',
+        ],
+        year: '2024',
+        area: '250 м²',
+        style: 'Скандинавский',
+        rating: 4.7,
+        reviewsCount: 7,
+        reviews: [
+          {
+            name: 'Алексей И.',
+            date: '10 октября 2024',
+            rating: 5,
+            text: 'Дом мечты! Мебель из ясеня создаёт невероятную атмосферу уюта.',
+          },
+          {
+            name: 'Наталья С.',
+            date: '25 августа 2024',
+            rating: 4,
+            text: 'Очень красиво, экологично. Единственное — хотелось бы больше вариантов отделки.',
+          },
+        ],
       },
       {
-        name: 'Ольга Н.',
-        date: '5 января 2024',
-        rating: 5,
-        text: 'Спасибо команде Manomaestro за этот шедевр. Интерьер теперь дышит по-новому!'
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Скандинавский дом в Серебряном Бору',
-    location: '📍 Серебряный Бор, Москва',
-    category: 'Архитектура + Интерьер',
-    images: [
-      './public/images/images1.png',
-      './public/images/6777884416.png',
-      './public/images/image2.png'
-    ],
-    description: 'Проект дома в скандинавском стиле с панорамными окнами и мебелью из светлого ясеня. Единство с природой в каждой детали.',
-    advantages: [
-      '🌿 Мебель из ясеня',
-      '🪟 Панорамные окна',
-      '❄️ Скандинавский стиль',
-      '🌳 Единство с природой'
-    ],
-    year: '2024',
-    area: '250 м²',
-    style: 'Скандинавский',
-    rating: 4.7,
-    reviewsCount: 7,
-    reviews: [
-      {
-        name: 'Алексей И.',
-        date: '10 октября 2024',
-        rating: 5,
-        text: 'Дом мечты! Мебель из ясеня создаёт невероятную атмосферу уюта.'
+        id: 4,
+        title: 'Неоклассика в Жуковке',
+        location: '📍 Жуковка, Московская область',
+        category: 'Интерьер',
+        images: [
+          `${IMG}/NK263.24_interior_2.png`,
+          `${IMG}/shkaf-raspas.png`,
+          `${IMG}/kabinet-ruko.png`,
+        ],
+        description:
+          'Элегантный интерьер в стиле неоклассика с мебелью из махагона и элементами из латуни. Изысканность и комфорт в каждой комнате.',
+        advantages: [
+          '🪑 Мебель из махагона',
+          '✨ Латунные элементы',
+          '🏛️ Неоклассический стиль',
+          '🎨 Ручная фрезеровка',
+        ],
+        year: '2023',
+        area: '280 м²',
+        style: 'Неоклассика',
+        rating: 4.9,
+        reviewsCount: 11,
+        reviews: [
+          {
+            name: 'Татьяна Р.',
+            date: '15 декабря 2023',
+            rating: 5,
+            text: 'Настоящее произведение искусства! Мебель из махагона с латунью — это просто сказка.',
+          },
+          {
+            name: 'Владимир К.',
+            date: '1 ноября 2023',
+            rating: 5,
+            text: 'Работа выполнена на высшем уровне. Особенно впечатлила ручная резьба.',
+          },
+          {
+            name: 'Елена М.',
+            date: '20 октября 2023',
+            rating: 4,
+            text: 'Очень красиво и благородно. Единственное — долго ждали завершения проекта.',
+          },
+        ],
       },
       {
-        name: 'Наталья С.',
-        date: '25 августа 2024',
-        rating: 4,
-        text: 'Очень красиво, экологично. Единственное — хотелось бы больше вариантов отделки.'
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: 'Неоклассика в Жуковке',
-    location: '📍 Жуковка, Московская область',
-    category: 'Интерьер',
-    images: [
-      './public/images/NK263.24_interior_2.png',
-      './public/images/shkaf-raspas.png',
-      './public/images/kabinet-ruko.png'
-    ],
-    description: 'Элегантный интерьер в стиле неоклассика с мебелью из махагона и элементами из латуни. Изысканность и комфорт в каждой комнате.',
-    advantages: [
-      '🪑 Мебель из махагона',
-      '✨ Латунные элементы',
-      '🏛️ Неоклассический стиль',
-      '🎨 Ручная фрезеровка'
-    ],
-    year: '2023',
-    area: '280 м²',
-    style: 'Неоклассика',
-    rating: 4.9,
-    reviewsCount: 11,
-    reviews: [
-      {
-        name: 'Татьяна Р.',
-        date: '15 декабря 2023',
-        rating: 5,
-        text: 'Настоящее произведение искусства! Мебель из махагона с латунью — это просто сказка.'
+        id: 5,
+        title: 'Минимализм в башне "Федерация"',
+        location: '📍 Москва, Башня Федерация',
+        category: 'Интерьер',
+        images: [
+          `${IMG}/midcentury.png`,
+          `${IMG}/i0000167720.png`,
+          `${IMG}/none-36330.png`,
+        ],
+        description:
+          'Минималистичный интерьер с панорамным видом на город. Мебель из светлого дуба и матового стекла.',
+        advantages: [
+          '🪑 Мебель из дуба',
+          '🏙️ Панорамный вид',
+          '✨ Матовое стекло',
+          '🌿 Минимализм',
+        ],
+        year: '2024',
+        area: '150 м²',
+        style: 'Минимализм',
+        rating: 4.6,
+        reviewsCount: 6,
+        reviews: [
+          {
+            name: 'Сергей М.',
+            date: '15 мая 2024',
+            rating: 5,
+            text: 'Идеальный интерьер для современного человека. Каждая деталь продумана.',
+          },
+        ],
       },
       {
-        name: 'Владимир К.',
-        date: '1 ноября 2023',
-        rating: 5,
-        text: 'Работа выполнена на высшем уровне. Особенно впечатлила ручная резьба.'
+        id: 6,
+        title: 'Арт-деко в историческом особняке',
+        location: '📍 Москва, Арбат',
+        category: 'Реставрация',
+        images: [
+          `${IMG}/dizayn-i-rem.jpg`,
+          `${IMG}/pngtree-des.png`,
+          `${IMG}/stil-loft.png`,
+        ],
+        description:
+          'Реставрация и переосмысление интерьера исторического особняка в стиле арт-деко. Сочетание винтажа и современности.',
+        advantages: [
+          '🏛️ Исторический особняк',
+          '🎨 Стиль арт-деко',
+          '🔄 Сочетание эпох',
+          '✨ Винтажные элементы',
+        ],
+        year: '2023',
+        area: '340 м²',
+        style: 'Арт-деко',
+        rating: 4.8,
+        reviewsCount: 8,
+        reviews: [
+          {
+            name: 'Ирина К.',
+            date: '20 августа 2023',
+            rating: 5,
+            text: 'Невероятная работа! Сохранили дух истории и добавили современный комфорт.',
+          },
+          {
+            name: 'Андрей Л.',
+            date: '5 июля 2023',
+            rating: 4,
+            text: 'Очень красиво, но было несколько сложных моментов по срокам.',
+          },
+        ],
       },
-      {
-        name: 'Елена М.',
-        date: '20 октября 2023',
-        rating: 4,
-        text: 'Очень красиво и благородно. Единственное — долго ждали завершения проекта.'
-      }
-    ]
-  },
-  {
-    id: 5,
-    title: 'Минимализм в башне "Федерация"',
-    location: '📍 Москва, Башня Федерация',
-    category: 'Интерьер',
-    images: [
-      './public/images/midcentury.png',
-      './public/images/i0000167720.png',
-      './public/images/none-36330.png'
-    ],
-    description: 'Минималистичный интерьер с панорамным видом на город. Мебель из светлого дуба и матового стекла.',
-    advantages: [
-      '🪑 Мебель из дуба',
-      '🏙️ Панорамный вид',
-      '✨ Матовое стекло',
-      '🌿 Минимализм'
-    ],
-    year: '2024',
-    area: '150 м²',
-    style: 'Минимализм',
-    rating: 4.6,
-    reviewsCount: 6,
-    reviews: [
-      {
-        name: 'Сергей М.',
-        date: '15 мая 2024',
-        rating: 5,
-        text: 'Идеальный интерьер для современного человека. Каждая деталь продумана.'
-      }
-    ]
-  },
-  {
-    id: 6,
-    title: 'Арт-деко в историческом особняке',
-    location: '📍 Москва, Арбат',
-    category: 'Реставрация',
-    images: [
-      './public/images/dizayn-i-rem.jpg',
-      './public/images/pngtree-des.png',
-      './public/images/stil-loft.png'
-    ],
-    description: 'Реставрация и переосмысление интерьера исторического особняка в стиле арт-деко. Сочетание винтажа и современности.',
-    advantages: [
-      '🏛️ Исторический особняк',
-      '🎨 Стиль арт-деко',
-      '🔄 Сочетание эпох',
-      '✨ Винтажные элементы'
-    ],
-    year: '2023',
-    area: '340 м²',
-    style: 'Арт-деко',
-    rating: 4.8,
-    reviewsCount: 8,
-    reviews: [
-      {
-        name: 'Ирина К.',
-        date: '20 августа 2023',
-        rating: 5,
-        text: 'Невероятная работа! Сохранили дух истории и добавили современный комфорт.'
-      },
-      {
-        name: 'Андрей Л.',
-        date: '5 июля 2023',
-        rating: 4,
-        text: 'Очень красиво, но было несколько сложных моментов по срокам.'
-      }
-    ]
-  }
-];
+    ];
 
     let html = '';
     projects.forEach((project) => {
@@ -592,14 +588,14 @@ class ProjectsModule {
           </div>
         `;
       });
-      
+
       let dots = '';
       project.images.forEach((_, idx) => {
         dots += `
           <button class="project-card__gallery-dot ${idx === 0 ? 'project-card__gallery-dot--active' : ''}" data-index="${idx}"></button>
         `;
       });
-      
+
       let reviewsHtml = '';
       const reviewsToShow = project.reviews.slice(0, 1);
       reviewsToShow.forEach(review => {
@@ -616,7 +612,7 @@ class ProjectsModule {
           </div>
         `;
       });
-      
+
       let advantagesHtml = '';
       project.advantages.forEach(adv => {
         advantagesHtml += `
@@ -629,7 +625,7 @@ class ProjectsModule {
 
       html += `
         <div class="project-card" data-id="${project.id}" data-project='${JSON.stringify(project).replace(/'/g, "&#39;")}'>
-          
+
           <!-- ===== ЗОЛОТЫЕ УГОЛКИ С РОМБАМИ ===== -->
           <div class="project-card__corner project-card__corner--tl project-card__corner--premium">
             <span class="corner-diamond"></span>
@@ -643,7 +639,7 @@ class ProjectsModule {
           <div class="project-card__corner project-card__corner--br project-card__corner--premium">
             <span class="corner-diamond"></span>
           </div>
-          
+
           <div class="project-card__gallery">
             <div class="project-card__gallery-track">
               ${gallerySlides}
@@ -655,16 +651,16 @@ class ProjectsModule {
             </div>
             <span class="project-card__badge">${project.category}</span>
           </div>
-          
+
           <div class="project-card__content">
             <h3 class="project-card__title">${project.title}</h3>
             <p class="project-card__location">${project.location}</p>
             <p class="project-card__desc">${project.description}</p>
-            
+
             <div class="project-card__advantages">
               ${advantagesHtml}
             </div>
-            
+
             <div class="project-card__reviews" data-reviews='${JSON.stringify(project.reviews).replace(/'/g, "&#39;")}' data-project-title="${project.title}">
               <div class="project-card__reviews-header">
                 <span class="project-card__reviews-title">✦ Отзывы</span>
@@ -679,7 +675,7 @@ class ProjectsModule {
               ${reviewsHtml}
               <div class="project-card__reviews-more">Все отзывы →</div>
             </div>
-            
+
             <div class="project-card__footer">
               <button class="project-card__btn" data-id="${project.id}">Подробнее о проекте →</button>
             </div>
@@ -689,9 +685,7 @@ class ProjectsModule {
     });
 
     this.grid.innerHTML = html;
-    console.log(`✅ ${projects.length} проектов загружено из JS`);
 
-    // Анимация карточек через 300мс
     setTimeout(() => {
       this.animateProjectCards();
     }, 300);
@@ -707,28 +701,23 @@ class ProjectsModule {
   // ИНИЦИАЛИЗАЦИЯ КЛИКОВ
   // =========================================================
   private initProjectClicks(): void {
-    console.log('🖱️ Инициализация кликов по проектам');
-    
     const container = document.querySelector('.projects-grid__items') as HTMLElement;
-    if (!container) {
-      console.warn('⚠️ Контейнер проектов не найден');
-      return;
-    }
-    
+    if (!container) return;
+
     container.addEventListener('click', (e: Event) => {
       const target = e.target as HTMLElement;
-      
+
       const card = target.closest('.project-card') as HTMLElement;
       if (!card) return;
-      
+
       const reviewsBlock = target.closest('.project-card__reviews') as HTMLElement;
       if (reviewsBlock) {
         e.stopPropagation();
         if (this.isReviewsOpening) return;
-        
+
         const reviewsData = reviewsBlock.dataset.reviews;
         const projectTitle = reviewsBlock.dataset.projectTitle || 'Проект';
-        
+
         if (reviewsData) {
           try {
             const reviews: Review[] = JSON.parse(reviewsData);
@@ -744,17 +733,19 @@ class ProjectsModule {
         }
         return;
       }
-      
-      if (target.closest('.project-card__gallery-btn') ||
-          target.closest('.project-card__gallery-dot')) {
+
+      if (
+        target.closest('.project-card__gallery-btn') ||
+        target.closest('.project-card__gallery-dot')
+      ) {
         return;
       }
-      
+
       if (this.isModalOpening) return;
-      
+
       const projectData = card.dataset.project;
       if (!projectData) return;
-      
+
       try {
         const project: Project = JSON.parse(projectData);
         this.isModalOpening = true;
@@ -767,22 +758,18 @@ class ProjectsModule {
         this.isModalOpening = false;
       }
     });
-
-    console.log(`✅ Клики инициализированы на всех карточках проектов`);
   }
 
   // =========================================================
   // МОДАЛЬНОЕ ОКНО С ОТЗЫВАМИ
   // =========================================================
   private openReviewsModal(reviews: Review[], projectTitle: string): void {
-    if (document.getElementById('reviewsModal')) {
-      return;
-    }
-    
+    if (document.getElementById('reviewsModal')) return;
+
     const modalOverlay = document.createElement('div');
     modalOverlay.className = 'reviews-modal-overlay';
     modalOverlay.id = 'reviewsModal';
-    
+
     let reviewsHtml = '';
     reviews.forEach(review => {
       reviewsHtml += `
@@ -798,7 +785,7 @@ class ProjectsModule {
         </div>
       `;
     });
-    
+
     modalOverlay.innerHTML = `
       <div class="reviews-modal">
         <button class="reviews-modal__close" id="reviewsModalClose">
@@ -814,21 +801,21 @@ class ProjectsModule {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(modalOverlay);
     document.body.classList.add('no-scroll');
-    
+
     setTimeout(() => {
       modalOverlay.classList.add('reviews-modal-overlay--active');
     }, 10);
-    
+
     const closeBtn = document.getElementById('reviewsModalClose');
     closeBtn?.addEventListener('click', this.closeReviewsModal);
-    
+
     modalOverlay.addEventListener('click', (e: MouseEvent) => {
       if (e.target === modalOverlay) this.closeReviewsModal();
     });
-    
+
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') this.closeReviewsModal();
     };
@@ -838,28 +825,24 @@ class ProjectsModule {
   private closeReviewsModal = (): void => {
     const modalOverlay = document.getElementById('reviewsModal');
     if (!modalOverlay) return;
-    
+
     modalOverlay.classList.remove('reviews-modal-overlay--active');
     document.body.classList.remove('no-scroll');
     setTimeout(() => {
       modalOverlay.remove();
     }, 400);
-  }
+  };
 
   // =========================================================
   // МОДАЛЬНОЕ ОКНО ПРОЕКТА
   // =========================================================
   private openProjectModal(project: Project): void {
-    if (document.getElementById('projectModal')) {
-      return;
-    }
-    
-    console.log('📱 Открываем модалку проекта:', project.title);
-    
+    if (document.getElementById('projectModal')) return;
+
     const modalOverlay = document.createElement('div');
     modalOverlay.className = 'project-modal-overlay';
     modalOverlay.id = 'projectModal';
-    
+
     let modalSlides = '';
     project.images.forEach((img, idx) => {
       modalSlides += `
@@ -868,14 +851,14 @@ class ProjectsModule {
         </div>
       `;
     });
-    
+
     let modalDots = '';
     project.images.forEach((_, idx) => {
       modalDots += `
         <button class="project-modal__gallery-dot ${idx === 0 ? 'project-modal__gallery-dot--active' : ''}" data-index="${idx}"></button>
       `;
     });
-    
+
     let modalReviewsHtml = '';
     project.reviews.forEach(review => {
       modalReviewsHtml += `
@@ -891,7 +874,7 @@ class ProjectsModule {
         </div>
       `;
     });
-    
+
     let modalAdvHtml = '';
     project.advantages.forEach(adv => {
       modalAdvHtml += `
@@ -901,14 +884,14 @@ class ProjectsModule {
         </div>
       `;
     });
-    
+
     modalOverlay.innerHTML = `
       <div class="project-modal">
         <button class="project-modal__close" id="projectModalClose">
           <span></span>
           <span></span>
         </button>
-        
+
         <div class="project-modal__gallery">
           <div class="project-modal__gallery-track">
             ${modalSlides}
@@ -919,16 +902,16 @@ class ProjectsModule {
             ${modalDots}
           </div>
         </div>
-        
+
         <div class="project-modal__body">
           <h2 class="project-modal__title">${project.title}</h2>
           <p class="project-modal__location">📍 ${project.location}</p>
           <p class="project-modal__desc">${project.description}</p>
-          
+
           <div class="project-modal__advantages">
             ${modalAdvHtml}
           </div>
-          
+
           <div class="project-modal__details">
             <div class="project-modal__detail-item">
               <span class="project-modal__detail-label">📅 Год</span>
@@ -943,40 +926,40 @@ class ProjectsModule {
               <span class="project-modal__detail-value">${project.style || 'По запросу'}</span>
             </div>
           </div>
-          
+
           <div class="project-modal__reviews">
             <h4 class="project-modal__reviews-title">✦ Отзывы</h4>
             ${modalReviewsHtml}
           </div>
-          
+
           <div class="project-modal__footer">
             <button class="project-modal__btn" id="projectModalConsult">📞 Обсудить проект</button>
           </div>
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(modalOverlay);
     document.body.classList.add('no-scroll');
-    
+
     setTimeout(() => {
       modalOverlay.classList.add('project-modal-overlay--active');
     }, 10);
-    
+
     this.initModalGallery(modalOverlay);
-    
+
     const closeBtn = document.getElementById('projectModalClose');
     closeBtn?.addEventListener('click', () => this.closeProjectModal(modalOverlay));
-    
+
     modalOverlay.addEventListener('click', (e: MouseEvent) => {
       if (e.target === modalOverlay) this.closeProjectModal(modalOverlay);
     });
-    
+
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') this.closeProjectModal(modalOverlay);
     };
     document.addEventListener('keydown', handleEsc);
-    
+
     const consultBtn = document.getElementById('projectModalConsult');
     consultBtn?.addEventListener('click', () => {
       alert(`📞 Заявка на консультацию по проекту "${project.title}"\n\nСвяжемся с вами в ближайшее время!`);
@@ -990,7 +973,7 @@ class ProjectsModule {
     setTimeout(() => {
       modalOverlay.remove();
     }, 400);
-  }
+  };
 
   // =========================================================
   // ИНИЦИАЛИЗАЦИЯ ГАЛЕРЕЙ
@@ -1002,40 +985,40 @@ class ProjectsModule {
       const dots = gallery.querySelectorAll<HTMLElement>('.project-card__gallery-dot');
       const prevBtn = gallery.querySelector<HTMLElement>('.project-card__gallery-btn--prev');
       const nextBtn = gallery.querySelector<HTMLElement>('.project-card__gallery-btn--next');
-      
+
       if (!track) return;
-      
+
       let currentIndex = 0;
       const totalSlides = slides.length;
-      
+
       if (totalSlides <= 1) {
         if (prevBtn) prevBtn.style.display = 'none';
         if (nextBtn) nextBtn.style.display = 'none';
-        dots.forEach(d => d.style.display = 'none');
+        dots.forEach(d => (d.style.display = 'none'));
         return;
       }
-      
+
       const goToSlide = (index: number): void => {
         if (index < 0) index = totalSlides - 1;
         if (index >= totalSlides) index = 0;
         currentIndex = index;
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        
+
         dots.forEach((dot, i) => {
           dot.classList.toggle('project-card__gallery-dot--active', i === currentIndex);
         });
       };
-      
+
       prevBtn?.addEventListener('click', (e: MouseEvent) => {
         e.stopPropagation();
         goToSlide(currentIndex - 1);
       });
-      
+
       nextBtn?.addEventListener('click', (e: MouseEvent) => {
         e.stopPropagation();
         goToSlide(currentIndex + 1);
       });
-      
+
       dots.forEach((dot, index) => {
         dot.addEventListener('click', (e: MouseEvent) => {
           e.stopPropagation();
@@ -1051,46 +1034,46 @@ class ProjectsModule {
   private initModalGallery(modalOverlay: HTMLElement): void {
     const gallery = modalOverlay.querySelector<HTMLElement>('.project-modal__gallery');
     if (!gallery) return;
-    
+
     const track = gallery.querySelector<HTMLElement>('.project-modal__gallery-track');
     const slides = gallery.querySelectorAll<HTMLElement>('.project-modal__gallery-slide');
     const dots = gallery.querySelectorAll<HTMLElement>('.project-modal__gallery-dot');
     const prevBtn = gallery.querySelector<HTMLElement>('.project-modal__gallery-btn--prev');
     const nextBtn = gallery.querySelector<HTMLElement>('.project-modal__gallery-btn--next');
-    
+
     if (!track) return;
-    
+
     let currentIndex = 0;
     const totalSlides = slides.length;
-    
+
     if (totalSlides <= 1) {
       if (prevBtn) prevBtn.style.display = 'none';
       if (nextBtn) nextBtn.style.display = 'none';
-      dots.forEach(d => d.style.display = 'none');
+      dots.forEach(d => (d.style.display = 'none'));
       return;
     }
-    
+
     const goToSlide = (index: number): void => {
       if (index < 0) index = totalSlides - 1;
       if (index >= totalSlides) index = 0;
       currentIndex = index;
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      
+
       dots.forEach((dot, i) => {
         dot.classList.toggle('project-modal__gallery-dot--active', i === currentIndex);
       });
     };
-    
+
     prevBtn?.addEventListener('click', (e: MouseEvent) => {
       e.stopPropagation();
       goToSlide(currentIndex - 1);
     });
-    
+
     nextBtn?.addEventListener('click', (e: MouseEvent) => {
       e.stopPropagation();
       goToSlide(currentIndex + 1);
     });
-    
+
     dots.forEach((dot, index) => {
       dot.addEventListener('click', (e: MouseEvent) => {
         e.stopPropagation();
@@ -1105,7 +1088,7 @@ class ProjectsModule {
   private initCarousel(): void {
     const container = document.querySelector('.projects-grid__items') as HTMLElement;
     if (!container) return;
-    
+
     let isDown = false;
     let startX = 0;
     let scrollLeft = 0;
@@ -1113,39 +1096,41 @@ class ProjectsModule {
     let lastX = 0;
     let lastTime = 0;
     let animationId: number | null = null;
-    
-    const progressBars = document.querySelectorAll<HTMLElement>('#carouselProgressTop, #carouselProgressBottom');
-    
+
+    const progressBars = document.querySelectorAll<HTMLElement>(
+      '#carouselProgressTop, #carouselProgressBottom'
+    );
+
     const updateProgress = (el: HTMLElement): void => {
       const maxScroll = el.scrollWidth - el.clientWidth;
       const currentScroll = el.scrollLeft;
       const percentage = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0;
-      
+
       progressBars.forEach(bar => {
         bar.style.width = `${percentage}%`;
       });
     };
-    
+
     const startMomentum = (): void => {
       if (Math.abs(momentum) < 1) {
         momentum = 0;
         return;
       }
-      
+
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
-      
+
       const step = (): void => {
         if (Math.abs(momentum) < 0.5) {
           momentum = 0;
           animationId = null;
           return;
         }
-        
+
         container.scrollLeft += momentum * 0.02;
         momentum *= 0.97;
-        
+
         const maxScroll = container.scrollWidth - container.clientWidth;
         if (container.scrollLeft <= 0) {
           container.scrollLeft = 0;
@@ -1154,14 +1139,14 @@ class ProjectsModule {
           container.scrollLeft = maxScroll;
           momentum = 0;
         }
-        
+
         updateProgress(container);
         animationId = requestAnimationFrame(step);
       };
-      
+
       animationId = requestAnimationFrame(step);
     };
-    
+
     container.addEventListener('mousedown', (e: MouseEvent) => {
       isDown = true;
       startX = e.pageX - container.offsetLeft;
@@ -1172,13 +1157,13 @@ class ProjectsModule {
       container.style.cursor = 'grabbing';
       container.style.scrollBehavior = 'auto';
       container.classList.add('is-dragging');
-      
+
       if (animationId) {
         cancelAnimationFrame(animationId);
         animationId = null;
       }
     });
-    
+
     container.addEventListener('mouseleave', () => {
       if (isDown) {
         isDown = false;
@@ -1187,7 +1172,7 @@ class ProjectsModule {
         startMomentum();
       }
     });
-    
+
     container.addEventListener('mouseup', () => {
       if (isDown) {
         isDown = false;
@@ -1196,67 +1181,79 @@ class ProjectsModule {
         startMomentum();
       }
     });
-    
+
     container.addEventListener('mousemove', (e: MouseEvent) => {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - container.offsetLeft;
       const walk = (x - startX) * 1.5;
       container.scrollLeft = scrollLeft - walk;
-      
+
       const now = Date.now();
       const dt = now - lastTime;
       if (dt > 0) {
         const dx = e.pageX - lastX;
-        momentum = dx / dt * 15;
+        momentum = (dx / dt) * 15;
       }
       lastX = e.pageX;
       lastTime = now;
-      
+
       updateProgress(container);
     });
-    
+
     let touchStartX = 0;
     let touchScrollLeft = 0;
-    
-    container.addEventListener('touchstart', (e: TouchEvent) => {
-      touchStartX = e.touches[0].pageX - container.offsetLeft;
-      touchScrollLeft = container.scrollLeft;
-      momentum = 0;
-      container.style.scrollBehavior = 'auto';
-      container.classList.add('is-dragging');
-      
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-    }, { passive: true });
-    
-    container.addEventListener('touchmove', (e: TouchEvent) => {
-      const x = e.touches[0].pageX - container.offsetLeft;
-      const walk = (x - touchStartX) * 1.5;
-      container.scrollLeft = touchScrollLeft - walk;
-      
-      const now = Date.now();
-      const dt = now - lastTime;
-      if (dt > 0) {
-        const dx = e.touches[0].pageX - lastX;
-        momentum = dx / dt * 15;
-      }
-      lastX = e.touches[0].pageX;
-      lastTime = now;
-      
-      updateProgress(container);
-    }, { passive: true });
-    
-    container.addEventListener('touchend', () => {
-      container.classList.remove('is-dragging');
-      startMomentum();
-    }, { passive: true });
-    
+
+    container.addEventListener(
+      'touchstart',
+      (e: TouchEvent) => {
+        touchStartX = e.touches[0].pageX - container.offsetLeft;
+        touchScrollLeft = container.scrollLeft;
+        momentum = 0;
+        container.style.scrollBehavior = 'auto';
+        container.classList.add('is-dragging');
+
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      },
+      { passive: true }
+    );
+
+    container.addEventListener(
+      'touchmove',
+      (e: TouchEvent) => {
+        const x = e.touches[0].pageX - container.offsetLeft;
+        const walk = (x - touchStartX) * 1.5;
+        container.scrollLeft = touchScrollLeft - walk;
+
+        const now = Date.now();
+        const dt = now - lastTime;
+        if (dt > 0) {
+          const dx = e.touches[0].pageX - lastX;
+          momentum = (dx / dt) * 15;
+        }
+        lastX = e.touches[0].pageX;
+        lastTime = now;
+
+        updateProgress(container);
+      },
+      { passive: true }
+    );
+
+    container.addEventListener(
+      'touchend',
+      () => {
+        container.classList.remove('is-dragging');
+        startMomentum();
+      },
+      { passive: true }
+    );
+
     const prevBtns = document.querySelectorAll('#carouselPrevTop, #carouselPrevBottom');
     const nextBtns = document.querySelectorAll('#carouselNextTop, #carouselNextBottom');
-    
+
     const getCardWidth = (): number => {
       const firstCard = container.querySelector('.project-card') as HTMLElement;
       const gap = 30;
@@ -1265,25 +1262,25 @@ class ProjectsModule {
       }
       return 530;
     };
-    
+
     prevBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const scrollAmount = getCardWidth();
         container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       });
     });
-    
+
     nextBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const scrollAmount = getCardWidth();
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       });
     });
-    
+
     container.addEventListener('scroll', () => {
       updateProgress(container);
     });
-    
+
     setTimeout(() => {
       updateProgress(container);
     }, 300);
@@ -1296,7 +1293,9 @@ class ProjectsModule {
     const burger = document.getElementById('burger');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileMenuClose = document.getElementById('mobileMenuClose');
-    const menuLinks = document.querySelectorAll<HTMLElement>('.mobile-menu__link:not(.mobile-menu__link--dropdown)');
+    const menuLinks = document.querySelectorAll<HTMLElement>(
+      '.mobile-menu__link:not(.mobile-menu__link--dropdown)'
+    );
     const body = document.body;
 
     if (!burger || !mobileMenu) return;
@@ -1396,47 +1395,7 @@ class ProjectsModule {
 // =========================================================
 // ЗАПУСК
 // =========================================================
-(function() {
-    'use strict';
-    
-    console.log('🔥 Запускаем ProjectsModule...');
-    
-    function startModule() {
-        try {
-            console.log('📦 Создаём экземпляр...');
-            const module = new ProjectsModule();
-            (window as any).__projectsModule = module;
-            console.log('✅ ProjectsModule создан!');
-            return module;
-        } catch (error) {
-            console.error('❌ Ошибка при создании ProjectsModule:', error);
-            return null;
-        }
-    }
-    
-    // Если DOM уже загружен — запускаем сразу
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        console.log('📄 DOM уже загружен, запускаем сразу');
-        startModule();
-    } else {
-        console.log('⏳ Ждём загрузки DOM...');
-        document.addEventListener('DOMContentLoaded', startModule);
-    }
-    
-    // Аварийный запуск через 500мс
-    setTimeout(function() {
-        if (!(window as any).__projectsModule) {
-            console.warn('⚠️ Аварийный запуск через 500мс');
-            startModule();
-        }
-    }, 500);
-    
-    // Абсолютный таймаут через 2 секунды
-    setTimeout(function() {
-        if (!(window as any).__projectsModule) {
-            console.warn('⚠️ КРАЙНИЙ АВАРИЙНЫЙ ЗАПУСК!');
-            startModule();
-        }
-    }, 2000);
-    
-})();
+// Vite выполняет module-скрипты после парсинга DOM,
+// поэтому readyState на момент запуска уже 'interactive' или 'complete'.
+// Никаких аварийных таймаутов не нужно.
+new ProjectsModule();

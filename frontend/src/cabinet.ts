@@ -1,10 +1,18 @@
 // =========================================================
+// СТИЛИ (импортируются через Vite)
+// =========================================================
+import './styles/style.css';
+import './styles/cabinet.css';
+import './auth/authh.css';
+
+// =========================================================
 // CABINET — ЛИЧНЫЙ КАБИНЕТ (С API)
 // =========================================================
 
-import AuthService from './auth/AuthService.js';
-import AuthModal from './auth/AuthModal.js';
-import FavoritesService, { FavoriteItem } from './auth/FavoritesService.js';
+// Vite: расширение .js в импортах TS-файлов не нужно
+import AuthService from './auth/AuthService';
+import AuthModal from './auth/AuthModal';
+import FavoritesService, { FavoriteItem } from './auth/FavoritesService';
 
 // =========================================================
 // ТИПЫ

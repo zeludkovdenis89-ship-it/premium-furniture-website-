@@ -1,8 +1,15 @@
 // =========================================================
-// КАТАЛОГ — ПОЛНОСТЬЮ ИСПРАВЛЕННАЯ ВЕРСИЯ
+// СТИЛИ (импортируются через Vite)
 // =========================================================
+import './styles/style.css';
+import './styles/cataloge.css';
+import './auth/authh.css';
 
-import FavoritesService, { FavoriteItem } from './auth/FavoritesService.js';
+// =========================================================
+// СЕРВИС ИЗБРАННОГО
+// =========================================================
+// Vite: расширение .js в импортах TS-файлов не нужно
+import FavoritesService, { FavoriteItem } from './auth/FavoritesService';
 
 // =========================================================
 // ТИПЫ И ИНТЕРФЕЙСЫ
@@ -32,6 +39,11 @@ interface CatalogItem {
 }
 
 // =========================================================
+// ПУТИ К КАРТИНКАМ (Vite: public/ — корень статики)
+// =========================================================
+const IMG = '/images';
+
+// =========================================================
 // ДАННЫЕ КАТАЛОГА (8 ТОВАРОВ)
 // =========================================================
 
@@ -42,7 +54,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Столы',
         price: '145 000 ₽',
         material: 'Дуб, металл',
-        image: './public/images/kabinet-rukovoditelya-woodstone.png',
+        image: `${IMG}/kabinet-rukovoditelya-woodstone.png`,
         description: 'Элегантный обеденный стол с изящными ножками и столешницей из массива дуба.',
         dimensions: '180 × 90 × 75 см',
         weight: '85 кг',
@@ -51,7 +63,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Александр К.',
             role: 'Мастер-столяр',
             experience: '12 лет',
-            avatar: './public/images/avatars/master1.jpg',
+            avatar: `${IMG}/avatars/master1.jpg`,
             quote: 'Древесина — живой материал.',
             link: '#master-alexandr'
         }
@@ -62,7 +74,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Диваны',
         price: '89 000 ₽',
         material: 'Орех, велюр',
-        image: './public/images/Мебель из массива дуба_ Процессы создания.png',
+        image: `${IMG}/Мебель из массива дуба_ Процессы создания.png`,
         description: 'Уютный диван с плавными линиями и мягкой велюровой обивкой.',
         dimensions: '80 × 85 × 70 см',
         weight: '32 кг',
@@ -71,7 +83,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Елена М.',
             role: 'Мастер-резчик',
             experience: '8 лет',
-            avatar: './public/images/avatars/master2.jpg',
+            avatar: `${IMG}/avatars/master2.jpg`,
             quote: 'В каждом изгибе — душа дерева.',
             link: '#master-elena'
         }
@@ -82,7 +94,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Шкафы',
         price: '210 000 ₽',
         material: 'Массив ясеня, стекло',
-        image: './public/images/shkaf-raspashnoj-v-zal-v-sovremennom-stile.png',
+        image: `${IMG}/shkaf-raspashnoj-v-zal-v-sovremennom-stile.png`,
         description: 'Вместительный шкаф с резными фасадами и стеклянными вставками.',
         dimensions: '200 × 60 × 220 см',
         weight: '120 кг',
@@ -91,7 +103,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Дмитрий С.',
             role: 'Мастер-столяр',
             experience: '15 лет',
-            avatar: './public/images/avatars/master3.jpg',
+            avatar: `${IMG}/avatars/master3.jpg`,
             quote: 'Шкаф — это хранение историй.',
             link: '#master-dmitry'
         }
@@ -102,7 +114,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Комоды',
         price: '98 000 ₽',
         material: 'Махагон, латунь',
-        image: './public/images/908045.png',
+        image: `${IMG}/908045.png`,
         description: 'Изысканный комод с ручной фрезеровкой и латунными ручками.',
         dimensions: '120 × 45 × 90 см',
         weight: '55 кг',
@@ -111,7 +123,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Андрей В.',
             role: 'Мастер-фрезеровщик',
             experience: '10 лет',
-            avatar: './public/images/avatars/master4.jpg',
+            avatar: `${IMG}/avatars/master4.jpg`,
             quote: 'Каждая линия — диалог с деревом.',
             link: '#master-andrey'
         }
@@ -122,7 +134,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Кровати',
         price: '320 000 ₽',
         material: 'Орех, натуральная кожа',
-        image: './public/images/NK263.24_interior_2.png',
+        image: `${IMG}/NK263.24_interior_2.png`,
         description: 'Роскошная кровать с высоким изголовьем и резными ножками.',
         dimensions: '200 × 180 × 120 см',
         weight: '150 кг',
@@ -131,7 +143,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Сергей П.',
             role: 'Мастер-столяр',
             experience: '20 лет',
-            avatar: './public/images/avatars/master5.jpg',
+            avatar: `${IMG}/avatars/master5.jpg`,
             quote: 'Кровать должна быть особенной.',
             link: '#master-sergey'
         }
@@ -142,7 +154,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Стеллажи',
         price: '75 000 ₽',
         material: 'Береза, металл',
-        image: './public/images/i0000167720-detail.png',
+        image: `${IMG}/i0000167720-detail.png`,
         description: 'Современный стеллаж с открытыми полками и металлическим каркасом.',
         dimensions: '150 × 40 × 200 см',
         weight: '45 кг',
@@ -151,7 +163,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Михаил К.',
             role: 'Мастер-металлист',
             experience: '7 лет',
-            avatar: './public/images/avatars/master6.jpg',
+            avatar: `${IMG}/avatars/master6.jpg`,
             quote: 'Металл и дерево — идеальный союз.',
             link: '#master-mikhail'
         }
@@ -162,7 +174,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Консоли',
         price: '67 000 ₽',
         material: 'Орех, мрамор',
-        image: './public/images/bybse499cwkxvcdkym1v4538zluz5mab.png',
+        image: `${IMG}/bybse499cwkxvcdkym1v4538zluz5mab.png`,
         description: 'Изящная консоль с мраморной столешницей и резными ножками.',
         dimensions: '100 × 35 × 85 см',
         weight: '38 кг',
@@ -171,7 +183,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Ольга Г.',
             role: 'Мастер-резчик',
             experience: '9 лет',
-            avatar: './public/images/avatars/master7.jpg',
+            avatar: `${IMG}/avatars/master7.jpg`,
             quote: 'Камень и дерево — единое целое.',
             link: '#master-olga'
         }
@@ -182,7 +194,7 @@ const catalogItems: CatalogItem[] = [
         category: 'Тумбы',
         price: '54 000 ₽',
         material: 'Дуб, ротанг',
-        image: './public/images/tumba.png',
+        image: `${IMG}/tumba.png`,
         description: 'Стильная прикроватная тумба с плетёными вставками из ротанга.',
         dimensions: '50 × 40 × 60 см',
         weight: '18 кг',
@@ -191,7 +203,7 @@ const catalogItems: CatalogItem[] = [
             name: 'Ирина Л.',
             role: 'Мастер-плетельщик',
             experience: '6 лет',
-            avatar: './public/images/avatars/master8.jpg',
+            avatar: `${IMG}/avatars/master8.jpg`,
             quote: 'Ротанг — материал живых линий.',
             link: '#master-irina'
         }
@@ -202,9 +214,7 @@ const catalogItems: CatalogItem[] = [
 // ОСНОВНОЙ КОД
 // =========================================================
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('✨ Каталог: скрипт загружен');
-
+document.addEventListener('DOMContentLoaded', function () {
     // 1. ПРЕЛОАДЕР
     const preloader = document.getElementById('catalogPreloader') as HTMLElement | null;
     const siteWrapper = document.getElementById('siteWrapper') as HTMLElement | null;
@@ -243,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // =========================================================
 
 function showNotification(message: string): void {
-    // Удаляем старые уведомления
     const oldNotifications = document.querySelectorAll('.custom-notification');
     oldNotifications.forEach(n => n.remove());
 
@@ -285,60 +294,51 @@ function showNotification(message: string): void {
 }
 
 // =========================================================
-// РАБОТА С ИЗБРАННЫМ (ИСПРАВЛЕННАЯ)
+// РАБОТА С ИЗБРАННЫМ
 // =========================================================
 
 let isProcessingFavorite = false;
 
 async function initFavoriteButtons(): Promise<void> {
     const buttons = document.querySelectorAll<HTMLElement>('.favorite-btn');
-    
+
     buttons.forEach((btn) => {
-        // 🔥 Убеждаемся, что кнопка НЕ submit
         btn.setAttribute('type', 'button');
-        
-        // 🔥 Удаляем все старые обработчики
+
         const newBtn = btn.cloneNode(true) as HTMLElement;
         if (btn.parentNode) {
             btn.parentNode.replaceChild(newBtn, btn);
         }
-        
-        // 🔥 Добавляем новый обработчик
+
         newBtn.addEventListener('click', handleFavoriteClick);
     });
 }
 
 async function handleFavoriteClick(e: Event): Promise<void> {
-    // 🔥🔥🔥 КРИТИЧЕСКИ ВАЖНО: блокируем перезагрузку
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
 
     if (isProcessingFavorite) {
-        console.log('⏳ Уже обрабатывается');
         return;
     }
-    
+
     const target = e.currentTarget as HTMLElement;
     const id = parseInt(target.dataset.id || '0');
     const type = (target.dataset.type || 'catalog') as 'catalog' | 'project';
-    
+
     if (!id) {
-        console.warn('⚠️ Нет ID товара');
         return;
     }
-    
-    console.log(`🔄 Клик по избранному: id=${id}, type=${type}`);
+
     isProcessingFavorite = true;
-    
-    // Сохраняем оригинальный текст
+
     const originalText = target.textContent || '☆ Добавить в избранное';
     target.textContent = '⏳ ...';
     target.style.opacity = '0.6';
     target.style.pointerEvents = 'none';
-    
+
     try {
-        // Проверяем токен
         const token = localStorage.getItem('manomaestro_token') || sessionStorage.getItem('manomaestro_token');
         if (!token) {
             showNotification('⚠️ Войдите в аккаунт, чтобы добавить в избранное');
@@ -348,18 +348,15 @@ async function handleFavoriteClick(e: Event): Promise<void> {
             isProcessingFavorite = false;
             return;
         }
-        
+
         const isFav = await FavoritesService.isFavorite(id, type);
-        console.log(`🔍 Товар ${id} в избранном: ${isFav}`);
-        
+
         if (isFav) {
-            // УДАЛЕНИЕ
             const success = await FavoritesService.removeFavorite(id, type);
             if (success) {
                 updateButtonState(target, false);
                 updateAllRelatedButtons(id, false);
                 showNotification('🗑️ Удалено из избранного');
-                console.log(`🗑️ Удален из избранного: ${id}`);
             } else {
                 showNotification('⚠️ Ошибка при удалении');
                 target.textContent = originalText;
@@ -367,9 +364,8 @@ async function handleFavoriteClick(e: Event): Promise<void> {
                 target.style.pointerEvents = 'auto';
             }
         } else {
-            // ДОБАВЛЕНИЕ
             const card = target.closest('.catalog-item') || target.closest('.project-card') || target.closest('.product-modal');
-            
+
             if (card) {
                 let title = 'Товар';
                 let price = '0 ₽';
@@ -390,7 +386,7 @@ async function handleFavoriteClick(e: Event): Promise<void> {
                     category = card.querySelector('.product-modal__badge')?.textContent?.trim() || '';
                     description = card.querySelector('.product-modal__desc')?.textContent?.trim() || '';
                 }
-                
+
                 const success = await FavoritesService.addFavorite({
                     productId: id,
                     productType: type,
@@ -400,12 +396,11 @@ async function handleFavoriteClick(e: Event): Promise<void> {
                     category: category,
                     description: description
                 });
-                
+
                 if (success) {
                     updateButtonState(target, true);
                     updateAllRelatedButtons(id, true);
                     showNotification('❤️ Добавлено в избранное');
-                    console.log(`❤️ Добавлен в избранное: ${title}`);
                 } else {
                     showNotification('⚠️ Ошибка при добавлении');
                     target.textContent = originalText;
@@ -413,7 +408,6 @@ async function handleFavoriteClick(e: Event): Promise<void> {
                     target.style.pointerEvents = 'auto';
                 }
             } else {
-                console.warn('⚠️ Не найдена карточка товара');
                 target.textContent = originalText;
                 target.style.opacity = '1';
                 target.style.pointerEvents = 'auto';
@@ -433,7 +427,7 @@ async function handleFavoriteClick(e: Event): Promise<void> {
 function updateButtonState(btn: HTMLElement, isFavorite: boolean): void {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
-    
+
     if (isFavorite) {
         btn.textContent = '★ В избранном';
         btn.classList.add('favorite-btn--active');
@@ -456,17 +450,15 @@ function updateAllRelatedButtons(productId: number, isFavorite: boolean): void {
 
 async function loadCatalogItems(): Promise<void> {
     const grid = document.getElementById('catalogGrid') as HTMLElement | null;
-    
+
     if (!grid) {
         console.error('❌ Сетка каталога (catalogGrid) не найдена!');
         return;
     }
 
-    // Загружаем избранное
     let favorites: FavoriteItem[] = [];
     try {
         favorites = await FavoritesService.getFavorites();
-        console.log(`📥 Загружено избранное: ${favorites.length} товаров`);
     } catch (error) {
         console.warn('⚠️ Не удалось загрузить избранное:', error);
     }
@@ -476,30 +468,28 @@ async function loadCatalogItems(): Promise<void> {
         const isFavorite = favorites.some(f => f.product_id === item.id && f.product_type === 'catalog');
         const btnText = isFavorite ? '★ В избранном' : '☆ Добавить в избранное';
         const btnClass = isFavorite ? 'favorite-btn--active' : '';
-        
+
         html += `
             <div class="catalog-item" data-id="${item.id}" data-product='${JSON.stringify(item).replace(/'/g, "&#39;")}'>
                 <div class="catalog-item__image-wrapper">
                     <img src="${item.image}" alt="${item.title}" class="catalog-item__image" loading="lazy" />
                     <span class="catalog-item__category">${item.category}</span>
-                    
-                    <!-- 🔥 type="button" ОБЯЗАТЕЛЬНО -->
+
                     <button type="button" class="favorite-btn catalog-item__favorite-btn ${btnClass}" data-id="${item.id}" data-type="catalog">
                         ${btnText}
                     </button>
                 </div>
-                
+
                 <div class="catalog-item__content">
                     <h3 class="catalog-item__title">${item.title}</h3>
                     <p class="catalog-item__material">${item.material}</p>
                     <p class="catalog-item__description">${item.description}</p>
                     <div class="catalog-item__footer">
                         <span class="catalog-item__price">${item.price}</span>
-                        <!-- 🔥 type="button" ОБЯЗАТЕЛЬНО -->
                         <button type="button" class="catalog-item__btn">Изучить мебель →</button>
                     </div>
                 </div>
-                
+
                 <div class="catalog-item__master">
                     <img src="${item.master.avatar}" alt="${item.master.name}" class="catalog-item__master-avatar" />
                     <div class="catalog-item__master-info">
@@ -514,22 +504,16 @@ async function loadCatalogItems(): Promise<void> {
 
     grid.innerHTML = html;
 
-    // Анимация
     animateCatalogItems();
-
-    // Инициализация кнопок избранного
     await initFavoriteButtons();
 
-    // 🔥 Делегирование событий для кликов по карточкам
-    grid.addEventListener('click', function(e: MouseEvent) {
+    grid.addEventListener('click', function (e: MouseEvent) {
         const target = e.target as HTMLElement;
-        
-        // Если кликнули на кнопку избранного - ничего не делаем
+
         if (target.closest('.favorite-btn')) {
             return;
         }
 
-        // Если кликнули на кнопку "Изучить мебель"
         const studyBtn = target.closest('.catalog-item__btn');
         if (studyBtn) {
             e.preventDefault();
@@ -538,12 +522,10 @@ async function loadCatalogItems(): Promise<void> {
             return;
         }
 
-        // Если кликнули на ссылку мастера - пусть переходит
         if (target.closest('a')) {
             return;
         }
 
-        // Иначе открываем модалку товара
         const card = target.closest('.catalog-item');
         if (card) {
             openProductFromCard(card);
@@ -589,17 +571,17 @@ async function openProductModal(product: CatalogItem): Promise<void> {
             <button type="button" class="product-modal__close" id="productModalClose">
                 <span></span><span></span>
             </button>
-            
+
             <div class="product-modal__image-wrapper">
                 <img src="${product.image}" alt="${product.title}" class="product-modal__image" />
                 <span class="product-modal__badge">${product.category}</span>
             </div>
-            
+
             <div class="product-modal__body">
                 <span class="product-modal__material">${product.material}</span>
                 <h2 class="product-modal__title">${product.title}</h2>
                 <p class="product-modal__desc">${product.description}</p>
-                
+
                 <div class="product-modal__specs">
                     <div class="product-modal__spec-item">
                         <span class="product-modal__spec-label">📐 Размеры</span>
@@ -614,7 +596,7 @@ async function openProductModal(product: CatalogItem): Promise<void> {
                         <span class="product-modal__spec-value">${product.guarantee}</span>
                     </div>
                 </div>
-                
+
                 <div class="product-modal__master">
                     <div class="product-modal__master-avatar">
                         <img src="${product.master.avatar}" alt="${product.master.name}" />
@@ -626,12 +608,11 @@ async function openProductModal(product: CatalogItem): Promise<void> {
                         <a href="${product.master.link}" class="product-modal__master-link">Страница мастера →</a>
                     </div>
                 </div>
-                
+
                 <div class="product-modal__footer">
                     <span class="product-modal__price">${product.price}</span>
                     <div class="product-modal__actions">
                         <button type="button" class="product-modal__btn" id="productModalConsult">📞 Консультация</button>
-                        <!-- 🔥 type="button" ОБЯЗАТЕЛЬНО -->
                         <button type="button" class="product-modal__favorite-btn ${btnClass}" data-id="${product.id}" data-type="catalog">
                             ${btnText}
                         </button>
@@ -648,7 +629,6 @@ async function openProductModal(product: CatalogItem): Promise<void> {
         modalOverlay.classList.add('product-modal-overlay--active');
     });
 
-    // Закрытие
     const closeBtn = document.getElementById('productModalClose');
     closeBtn?.addEventListener('click', () => closeProductModal(modalOverlay));
 
@@ -664,13 +644,11 @@ async function openProductModal(product: CatalogItem): Promise<void> {
     };
     document.addEventListener('keydown', escHandler);
 
-    // Консультация
     document.getElementById('productModalConsult')?.addEventListener('click', () => {
         alert(`📞 Заявка на консультацию по "${product.title}"`);
         closeProductModal(modalOverlay);
     });
 
-    // Избранное в модалке
     const favBtn = modalOverlay.querySelector('.product-modal__favorite-btn');
     if (favBtn) {
         favBtn.addEventListener('click', handleFavoriteClick);
@@ -713,7 +691,6 @@ function animateHeader(): void {
             logo.style.transform = 'translateX(0) scale(1)';
         }, 100);
     }
-    // ... остальная анимация ...
 }
 
 function animateHero(): void {
@@ -750,11 +727,10 @@ function initBurger(): void {
     const burger = document.getElementById('burger') as HTMLElement | null;
     const mobileMenu = document.getElementById('mobileMenu') as HTMLElement | null;
     const mobileMenuClose = document.getElementById('mobileMenuClose') as HTMLElement | null;
-    
+
     if (!burger || !mobileMenu) return;
 
     const toggleMenu = () => {
-        const isActive = mobileMenu.classList.contains('mobile-menu--active');
         burger.classList.toggle('burger--active');
         mobileMenu.classList.toggle('mobile-menu--active');
         document.body.classList.toggle('no-scroll');
@@ -766,10 +742,10 @@ function initBurger(): void {
     });
 
     mobileMenuClose?.addEventListener('click', toggleMenu);
-    
+
     document.addEventListener('click', (e) => {
-        if (mobileMenu.classList.contains('mobile-menu--active') && 
-            !mobileMenu.contains(e.target as Node) && 
+        if (mobileMenu.classList.contains('mobile-menu--active') &&
+            !mobileMenu.contains(e.target as Node) &&
             !burger.contains(e.target as Node)) {
             toggleMenu();
         }
@@ -780,7 +756,7 @@ function initModal(): void {
     const toggle = document.getElementById('mobileServicesToggle') as HTMLElement | null;
     const modal = document.getElementById('servicesModal') as HTMLElement | null;
     const close = document.getElementById('modalClose') as HTMLElement | null;
-    
+
     if (!modal) return;
 
     const open = () => {

@@ -36,7 +36,13 @@ app.use(helmet({
             scriptSrc: ["'self'", "'unsafe-inline'"],
             styleSrc: ["'self'", "'unsafe-inline'"],
             imgSrc: ["'self'", "data:", "https://i.pravatar.cc"],
-            connectSrc: ["'self'", "http://localhost:3001", "http://localhost:8000"],
+            connectSrc: [
+                "'self'",
+                "http://localhost:3001",
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "http://localhost:8000"
+            ],
         },
     },
     crossOriginEmbedderPolicy: false,
@@ -47,9 +53,11 @@ app.use(helmet({
 // =========================================================
 
 const allowedOrigins = [
-    'http://localhost:8000',
+    'http://localhost:5173',      // ← Vite dev
+    'http://127.0.0.1:5173',      // ← Vite dev
+    'http://localhost:8000',      // ← старый serve
     'http://127.0.0.1:8000',
-    'http://localhost:5500',
+    'http://localhost:5500',      // ← Live Server VS Code
     'https://manomaestro.ru',
     'https://www.manomaestro.ru',
 ];
@@ -228,8 +236,8 @@ const validateName = (name) => {
 
 function generateTokens(user) {
     const accessToken = jwt.sign(
-        { 
-            id: user.id, 
+        {
+            id: user.id,
             email: user.email,
             phone: user.phone,
             tokenVersion: user.token_version || 1
@@ -275,7 +283,7 @@ function verifyToken(req, res, next) {
 // API — АВТОРИЗАЦИЯ
 // =========================================================
 
-// ===== РЕГИСТРАЦИЯ (ИСПРАВЛЕНА) =====
+// ===== РЕГИСТРАЦИЯ =====
 app.post('/api/auth/register', [
     body('name').trim().isLength({ min: 2, max: 50 }).withMessage('Имя должно быть от 2 до 50 символов'),
     body('phone').custom(validatePhone).withMessage('Введите корректный номер телефона'),
@@ -284,7 +292,7 @@ app.post('/api/auth/register', [
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ 
+        return res.status(400).json({
             error: errors.array()[0].msg,
             details: errors.array()
         });
@@ -299,7 +307,6 @@ app.post('/api/auth/register', [
     const cleanedPhone = phone.replace(/\D/g, '');
 
     try {
-        // 🔥 ПРОВЕРЯЕМ ТОЛЬКО ТЕЛЕФОН (ИМЯ МОЖЕТ ПОВТОРЯТЬСЯ)
         const existingUser = await new Promise((resolve, reject) => {
             db.get(
                 'SELECT id FROM users WHERE phone = ?',
@@ -332,9 +339,9 @@ app.post('/api/auth/register', [
             );
         });
 
-        const user = { 
-            id: result, 
-            name, 
+        const user = {
+            id: result,
+            name,
             email: null,
             phone: cleanedPhone,
             token_version: 1
@@ -401,8 +408,8 @@ app.post('/api/auth/login', [
         }
 
         if (user.locked_until && new Date(user.locked_until) > new Date()) {
-            return res.status(403).json({ 
-                error: `Аккаунт заблокирован до ${new Date(user.locked_until).toLocaleString()}` 
+            return res.status(403).json({
+                error: `Аккаунт заблокирован до ${new Date(user.locked_until).toLocaleString()}`
             });
         }
 
@@ -432,8 +439,8 @@ app.post('/api/auth/login', [
                         }
                     );
                 });
-                return res.status(403).json({ 
-                    error: 'Слишком много попыток входа. Аккаунт заблокирован на 15 минут.' 
+                return res.status(403).json({
+                    error: 'Слишком много попыток входа. Аккаунт заблокирован на 15 минут.'
                 });
             }
 
@@ -495,7 +502,7 @@ app.post('/api/auth/refresh', async (req, res) => {
 
     try {
         const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-        
+
         const user = await new Promise((resolve, reject) => {
             db.get(
                 'SELECT * FROM users WHERE id = ? AND refresh_token = ?',
@@ -703,6 +710,65 @@ app.put('/api/auth/profile', verifyToken, [
     }
 });
 
+// ===== СМЕНА ПАРОЛЯ (НОВОЕ) =====
+app.put('/api/auth/password', verifyToken, [
+    body('currentPassword').notEmpty().withMessage('Введите текущий пароль'),
+    body('newPassword').isLength({ min: 6 }).withMessage('Новый пароль должен содержать минимум 6 символов'),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    const { currentPassword, newPassword } = req.body;
+
+    try {
+        const user = await new Promise((resolve, reject) => {
+            db.get(
+                'SELECT id, password FROM users WHERE id = ?',
+                [req.userId],
+                (err, row) => {
+                    if (err) reject(err);
+                    resolve(row);
+                }
+            );
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Пользователь не найден' });
+        }
+
+        const isValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isValid) {
+            return res.status(401).json({ error: 'Неверный текущий пароль' });
+        }
+
+        if (currentPassword === newPassword) {
+            return res.status(400).json({ error: 'Новый пароль должен отличаться от текущего' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await new Promise((resolve, reject) => {
+            db.run(
+                'UPDATE users SET password = ?, token_version = COALESCE(token_version, 0) + 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+                [hashedPassword, req.userId],
+                function(err) {
+                    if (err) reject(err);
+                    resolve(this.changes);
+                }
+            );
+        });
+
+        console.log(`🔑 Пароль изменён для пользователя ID ${req.userId}`);
+        res.json({ success: true, message: 'Пароль успешно изменён' });
+
+    } catch (error) {
+        console.error('❌ Ошибка смены пароля:', error);
+        res.status(500).json({ error: 'Ошибка сервера' });
+    }
+});
+
 // =========================================================
 // API — ИЗБРАННОЕ
 // =========================================================
@@ -755,8 +821,8 @@ app.post('/api/favorites', verifyToken, async (req, res) => {
 
         const result = await new Promise((resolve, reject) => {
             db.run(
-                `INSERT INTO favorites 
-                (user_id, product_id, product_type, product_title, product_price, product_image, product_category, product_description) 
+                `INSERT INTO favorites
+                (user_id, product_id, product_type, product_title, product_price, product_image, product_category, product_description)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     req.userId,
